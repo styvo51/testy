@@ -9,3 +9,20 @@
 
 `/get`
 
+## Examples
+```
+1 CAREW STREET MT DRUITT 2770,1 Carew Street,,Mt Druitt,NSW,2770
+1 Cassidy Crescent,1 Cassidy Crescent,BOGANGAR,,NSW,2488
+1 Celeste Court St Kilda East Vic 3183,1 Celeste Court St,,Kilda East,VIC,3183
+1 Cromer Court,1 Cromer Court,BANORA POINT,,NSW,2486
+1 Crown Court,1 Crown Court,VARSITY LAKES,,QLD,4226
+1 DE CARLE STREET COBURG,1 De Carle Street,Coburg��,,VIC,3058
+1 Elizabeth Street,1 Elizabeth Street,FINGAL,,NSW,2487
+1 Emu Bank,1 Emu Bank,Belconnen,,ACT,2617
+1 FABOS PL CROYDON PARK,1 Fabos Place,Croydon Park,,NSW,2133
+1 Fairtrader Drive,1 Fairtrader Drive,YAMBA,,NSW,2464
+1 Falconer Road Boronia 3155,1 Falconer Road,,Boronia,VIC,3155
+1 FRASER ST RANDWICK,1 Fraser Street,,Randwick�,NSW,2031
+1 Gibbon Street,1 Gibbon Street,LENNOX HEAD,,NSW,2478
+1 GLIDERWAY STREET,1 Gliderway Street,,Bundamba,QLD,4034
+```
