@@ -1,6 +1,31 @@
 # imax
 
+## Postgre
+```
+username = doadmin
+password = n0dcnpl742s2awjq
+host = db-postgresql-sgp1-94366-do-user-2132945-0.db.ondigitalocean.com
+port = 25060
+database = defaultdb
+sslmode = require
+```
+
 ## Tables
+```
+CREATE TABLE QLD70to79(
+   id serial PRIMARY KEY,
+   first_name VARCHAR (200) NOT NULL,
+   last_name VARCHAR (200) NOT NULL,
+   email VARCHAR (200) NOT NULL,
+   address VARCHAR (200) NOT NULL,
+   address2 VARCHAR (200) NOT NULL,
+   postcode VARCHAR (10) NOT NULL,
+   dob DATE NOT NULL,
+   telephone VARCHAR (200) NOT NULL,
+   url VARCHAR (200) NOT NULL,
+   ip VARCHAR (50) NOT NULL
+);
+```
 
 ### Person?
 
