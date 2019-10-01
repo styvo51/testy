@@ -8,10 +8,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\imx.api.models\imx.api.models.csproj" />
+    <ProjectReference Include="..\Imx.Models\Imx.Models.csproj" />
   </ItemGroup>
 
 </Project>
