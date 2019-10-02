@@ -49,6 +49,10 @@ WantedBy=multi-user.target
 
 ### Setup UFW
 
+```
+sudo ufw allow 443
+```
+
 ## Postgre
 ```
 username = doadmin
