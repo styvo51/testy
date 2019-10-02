@@ -1,9 +1,48 @@
 # imx
 
 ## Setup
-- Install .net core
-- Install nginx
-- Setup UFW
+
+### Install .net core
+```shell
+wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo add-apt-repository universe
+sudo apt-get update
+sudo apt-get install apt-transport-https
+sudo apt-get update
+sudo apt-get install dotnet-sdk-3.0
+```
+### Install nginx
+
+### Create SystemCtl
+
+Copy 
+
+Or new
+```
+sudo nano /etc/systemd/system/imx.service
+```
+```
+[Unit]
+Description=Imx API                      
+
+[Service]
+WorkingDirectory=/var/www/api     
+ExecStart=/usr/bin/dotnet /var/www/api/imx.ap.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=instant-crypto
+User=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Setup UFW
 
 ## Postgre
 ```
