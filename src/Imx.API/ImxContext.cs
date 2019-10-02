@@ -9,18 +9,24 @@ namespace Imx.API
         
         public DbSet<Imx.Models.Person> Persons { get; set; }
 
-        public ImxContext(string connString)
-        {
-            _connString = connString;
-        }
+        // public ImxContext(string connString)
+        // {
+        //     _connString = connString;
+        // }
         
-        public ImxContext (DbContextOptions<ImxContext> options) : base(options)
+        // public ImxContext (DbContextOptions<ImxContext> options) : base(options)
+        // {
+        // }
+
+        public ImxContext()
         {
+            Database.EnsureCreated();
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connString);
+            //optionsBuilder.UseSqlServer(_connString);
+            optionsBuilder.UseSqlite("Data Source=imx.db");
         }
     }
 }

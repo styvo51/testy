@@ -13,9 +13,14 @@ namespace Imx.API.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Models.Person>> Get()
         {
-            return new string[] { "value1", "value2" };
+            List<Models.Person> persons = new List<Person>();
+            using (ImxContext db = new ImxContext())
+            {
+                persons.AddRange(db.Persons);
+            }
+            return persons;
         }
 
         // GET api/values/5
@@ -27,8 +32,13 @@ namespace Imx.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post(Models.Person person)
         {
+            using (ImxContext db = new ImxContext())
+            {
+                db.Add(person);
+                db.SaveChanges();
+            }
         }
 
         // PUT api/values/5
