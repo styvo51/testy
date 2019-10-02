@@ -2,6 +2,11 @@
 
 ## Setup
 
+```
+git clone 
+sudo chmod u+x deploy.sh
+```
+
 ### Install .net core
 ```shell
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
@@ -16,7 +21,7 @@ sudo apt-get install dotnet-sdk-3.0
 
 ### Create SystemCtl
 
-Copy 
+Copy `/imx.service`
 
 Or new
 ```
