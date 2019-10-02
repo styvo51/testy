@@ -1,5 +1,10 @@
 # imx
 
+## Setup
+- Install .net core
+- Install nginx
+- Setup UFW
+
 ## Postgre
 ```
 username = doadmin
