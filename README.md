@@ -15,7 +15,9 @@ database = defaultdb
 sslmode = require
 ```
 
-## Tables
+## Tables / Models
+
+### Person
 ```
 CREATE TABLE QLD70to79(
    id serial PRIMARY KEY,
@@ -32,12 +34,33 @@ CREATE TABLE QLD70to79(
 );
 ```
 
-### Person?
+```csharp
+        public Int32 Id { get; set; }
 
+        public String Title { get; set; }
+
+        public String Forename { get; set; }
+
+        public String Lastname { get; set; }
+
+        public String Address1 { get; set; } 
+
+        public String Address3 { get; set; }
+
+        public String DOB { get; set; }
+
+        public String Telephone { get; set; }
+
+        public String Url { get; set; }
+
+        public String IP { get; set; }
+    }
+```
 
 ## API Endpoints
 
-`/get`
+`/person` GET
+`/person` POST
 
 ## Examples
 ```
