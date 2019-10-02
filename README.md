@@ -1,4 +1,4 @@
-# imax
+# imx
 
 ## Postgre
 ```
