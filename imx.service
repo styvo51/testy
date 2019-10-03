@@ -3,7 +3,7 @@ Description=Imx API
 
 [Service]
 WorkingDirectory=/var/www/api     
-ExecStart=/usr/bin/dotnet /var/www/api/imx.ap.dll
+ExecStart=/usr/bin/dotnet /var/www/imx/Imx.API.dll
 Restart=always
 # Restart service after 10 seconds if the dotnet service crashes:
 RestartSec=10
