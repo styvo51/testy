@@ -52,6 +52,8 @@ Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 WantedBy=multi-user.target
 ```
 
+Service can be monitored by `sudo journalctl -fu imx.service`
+
 ### Setup UFW
 
 ```
