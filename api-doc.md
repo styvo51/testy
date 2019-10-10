@@ -1,4 +1,7 @@
 # API
+## Overview
+By default, the IMX service will bind to `http://localhost:5000`.
+
 ## Get multiple people
 
 Retrieve everyone
