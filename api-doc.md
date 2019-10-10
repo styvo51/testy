@@ -168,14 +168,14 @@ Provide the title, first name, last name, address line 1, address line 2, DoB, t
 ```json
 {
 	"Title":"[16 chars max]",
-	"ForeName":"[64 chars max]",
-	"LastName":"[64 chars max]",
+	"ForeName":"[200 chars max]",
+	"LastName":"[200 chars max]",
 	"Address1":"[200 chars max]",
 	"Address3":"[200 chars max]",
 	"DOB":"[date]",
-	"Telephone":"[50 chars max]",
-	"Url":"[2000 chars max]",
-	"IP":"[16 chars max]"
+	"Telephone":"[200 chars max]",
+	"Url":"[200 chars max]",
+	"IP":"[50 chars max]"
 }
 ```
 
@@ -260,15 +260,15 @@ Update a record.
 
 ```json
 {
-    "Title":"[16 chars max]",
-	"ForeName":"[64 chars max]",
-	"LastName":"[64 chars max]",
+	"Title":"[16 chars max]",
+	"ForeName":"[200 chars max]",
+	"LastName":"[200 chars max]",
 	"Address1":"[200 chars max]",
 	"Address3":"[200 chars max]",
 	"DOB":"[date]",
-	"Telephone":"[50 chars max]",
-	"Url":"[2000 chars max]",
-	"IP":"[16 chars max]"
+	"Telephone":"[200 chars max]",
+	"Url":"[200 chars max]",
+	"IP":"[50 chars max]"
 }
 ```
 
