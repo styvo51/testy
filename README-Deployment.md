@@ -1,5 +1,5 @@
 # Imx
-Imx is a record matching and verification tool.
+Imx is a record matching and verification api.
 ## Table of Contents
 [TOC]
 
@@ -23,17 +23,11 @@ sudo apt-get install dotnet-sdk-2.2
 sudo apt update
 sudo apt install nginx
 ```
-#### PostgreSQL
-
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
-```
 ### Install Imx
 Installation will:
 * Copy imx.service to /etc/systemd/system/
 * Publish the imx dotnet app to /var/www/imx
-* Enable and start the imx.service with systemctl.
+* Enable and start the imx.service with systemctl so that it starts when the server boots, and restarts if it crashes.
 
 A deploy script has been provided to handle this automagically.
 
@@ -46,34 +40,9 @@ sudo ./deploy.sh
 
 ### Configure for deployment
 #### Setup ufw
-Port 443 (https) needs to be opened in the server firewall to allow requests in and out. Nginx will be configured to redirect http requests to https. The instructions for ufw are as follows:
+Port 443 (https) needs to be opened in the server firewall to allow requests in and out. The instructions for ufw are as follows:
 ```bash
 sudo ufw allow 443/tcp
-```
-#### Setup postgres
-A postgres database with the following details needs to be created.
-* Database name: defaultdb
-* sslmode: require
-* Port: 25060
-* Host:
-* Username:
-* Password:
-
-The following SQL script will create the necessary tables.
-```sql
-CREATE TABLE QLD70to79(
-   id serial PRIMARY KEY,
-   first_name VARCHAR (200) NOT NULL,
-   last_name VARCHAR (200) NOT NULL,
-   email VARCHAR (200) NOT NULL,
-   address VARCHAR (200) NOT NULL,
-   address2 VARCHAR (200) NOT NULL,
-   postcode VARCHAR (10) NOT NULL,
-   dob DATE NOT NULL,
-   telephone VARCHAR (200) NOT NULL,
-   url VARCHAR (200) NOT NULL,
-   ip VARCHAR (50) NOT NULL
-);
 ```
 
 #### Setup nginx
@@ -96,6 +65,37 @@ server {
     }
 }
 ```
+
+#### Setup SSL
+There are two options for SSL: update nginx with the details of the certificate purchased from a third party, or use Let's Encrypt and Certbot.
+To use prepurchased certificates the nginx config will need to be updated. (See [here](http://nginx.org/en/docs/http/configuring_https_servers.html) for more details on nginx https configurations)
+Add the following lines (replacing cert.pem and cert.key with the certificate details)
+```
+    ssl_certificate     cert.pem;
+    ssl_certificate_key cert.key;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    keepalive_timeout   70;
+```
+
+Alternatively, the Let's Encrypt Certbot can be used to automatically enable SSL for free. Directions for doing this on Ubuntu 18.04 can be found [here](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx)
+In brief:
+```bash
+    sudo apt-get update
+    sudo apt-get install software-properties-common
+    sudo add-apt-repository universe
+    sudo add-apt-repository ppa:certbot/certbot
+    sudo apt-get update
+
+    sudo apt-get install certbot python-certbot-nginx 
+
+    sudo certbot --nginx
+```
+To test Certbot's ability to autorenew, run
+```bash
+sudo certbot renew --dry-run
+```
+ Https should now be enabled. The api will be accessable from `https://api.imx.com`
 
 #### Setup imx.service
 The Imx service should have been enabled and started by the deployment script. It will be listening for requests on `http://localhost:5000` The service can be checked with:
