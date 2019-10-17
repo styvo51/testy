@@ -1,4 +1,8 @@
 # IMX API
+
+## Table of Contents
+[TOC]
+
 ## Overview
 By default, the IMX service will bind to `http://localhost:5000`.
 
