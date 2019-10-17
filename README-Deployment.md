@@ -1,5 +1,5 @@
 # Imx
-Imx is a record matching and verification api.
+
 ## Table of Contents
 [TOC]
 
