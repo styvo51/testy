@@ -61,6 +61,9 @@ sudo ufw allow 443
 ```
 
 ## Postgre
+
+On dltx digital ocean `165.22.108.77`
+
 ```
 username = doadmin
 password = n0dcnpl742s2awjq
