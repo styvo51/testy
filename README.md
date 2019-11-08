@@ -62,20 +62,15 @@ sudo ufw allow 443
 
 ## Postgre
 
-Digital Ocean Details
+Digital Ocean Details. Remote access to the imx database is provided with the `imxadmin` user. For imx db admin purposes, an `imxadmin` user also exists on the server, but is unavailable for ssh.
+
 ```
-ip address: 165.22.108.77
-postgres role: imxadmin
-username: imxadmin
-password: gKBnvUSQRKdY
-```
-```
-username = doadmin
-password = n0dcnpl742s2awjq
-host = db-postgresql-sgp1-94366-do-user-2132945-0.db.ondigitalocean.com
-port = 25060
-database = defaultdb
-sslmode = require
+ip address:       206.189.93.97
+postgres role:    imxadmin
+role password:    gKBnvUSQRKdY
+database name:    imx
+username:         imxadmin
+password:         gKBnvUSQRKdY
 ```
 
 ## Tables / Models

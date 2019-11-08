@@ -23,6 +23,10 @@ sudo apt-get install dotnet-sdk-2.2
 sudo apt update
 sudo apt install nginx
 ```
+#### Postgres
+```
+apt install postgres postgres-contrib
+```
 ### Install Imx
 Installation will:
 * Copy imx.service to /etc/systemd/system/
@@ -96,7 +100,32 @@ To test Certbot's ability to autorenew, run
 sudo certbot renew --dry-run
 ```
  Https should now be enabled. The api will be accessable from `https://api.imx.com`
+#### Setup Postgres
+```
+sudo -i -u postgres
+createuser imxadmin with password "your chosen password"
+createdb imx
+alter role imxadmin with login
+```
+If the database is on a separate server:
+```
+ufw allow 5432
+```
+Add the following lines to `pg_hba.conf`
+```
+hostnossl  all  all  0.0.0.0/0     reject
+hostnossl  all  all  ::/0          reject
+hostssl imx imxadmin    0.0.0.0/0   md5
+```
+Change the `listen_addresses` parameter in `postgresql.conf` to `'*'`
 
+**Current server details:**
+```
+ip address:       206.189.93.97
+postgres role:    imxadmin
+role password:    gKBnvUSQRKdY
+database name:    imx
+```
 #### Setup imx.service
 The Imx service should have been enabled and started by the deployment script. It will be listening for requests on `http://localhost:5000` The service can be checked with:
 ```bash
