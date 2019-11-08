@@ -62,8 +62,13 @@ sudo ufw allow 443
 
 ## Postgre
 
-On dltx digital ocean `165.22.108.77`
-
+Digital Ocean Details
+```
+ip address: 165.22.108.77
+postgres role: imxadmin
+username: imxadmin
+password: gKBnvUSQRKdY
+```
 ```
 username = doadmin
 password = n0dcnpl742s2awjq
