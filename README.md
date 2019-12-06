@@ -60,17 +60,19 @@ Service can be monitored by `sudo journalctl -fu imx.service`
 sudo ufw allow 443
 ```
 
-## Postgre
+## Postgres
 
-Digital Ocean Details. Remote access to the imx database is provided with the `imxadmin` user. For imx db admin purposes, an `imxadmin` user also exists on the server, but is unavailable for ssh.
+Digital Ocean Details. 
+Postgres admin access for the `imx` database is provided with the `imxadmin` postgres role. This role can create and drop tables. General access for querying the database, adding, and deleting records is provided with the `imxaccess` postgres role.
 
 ```
 ip address:       206.189.93.97
-postgres role:    imxadmin
-role password:    gKBnvUSQRKdY
 database name:    imx
-username:         imxadmin
-password:         gKBnvUSQRKdY
+imx admin role:   imxadmin
+admin password:   gKBnvUSQRKdY
+
+imx access role:  imxaccess
+access password:  atOclaNdtosI
 ```
 
 ## Tables / Models

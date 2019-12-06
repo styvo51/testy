@@ -120,11 +120,16 @@ hostssl imx imxadmin    0.0.0.0/0   md5
 Change the `listen_addresses` parameter in `postgresql.conf` to `'*'`
 
 **Current server details:**
+Postgres admin access for the `imx` database is provided with the `imxadmin` postgres role. This role can create and drop tables. General access for querying the database, adding, and deleting records is provided with the `imxaccess` postgres role.
+
 ```
 ip address:       206.189.93.97
-postgres role:    imxadmin
-role password:    gKBnvUSQRKdY
 database name:    imx
+imx admin role:   imxadmin
+admin password:   gKBnvUSQRKdY
+
+imx access role:  imxaccess
+access password:  atOclaNdtosI
 ```
 #### Setup imx.service
 The Imx service should have been enabled and started by the deployment script. It will be listening for requests on `http://localhost:5000` The service can be checked with:
