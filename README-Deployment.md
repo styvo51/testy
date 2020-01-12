@@ -111,11 +111,17 @@ If the database is on a separate server:
 ```
 ufw allow 5432
 ```
-Add the following lines to `pg_hba.conf`
+Add the following lines to `pg_hba.conf` 
 ```
 hostnossl  all  all  0.0.0.0/0     reject
 hostnossl  all  all  ::/0          reject
 hostssl imx imxadmin    0.0.0.0/0   md5
+```
+To find `pg_hba.conf` and `postgresql.conf`:
+```
+sudo -i -u postgres
+psql -U postgres -c 'SHOW config_file'
+psql -t -P format=unaligned -c 'show hba_file';
 ```
 Change the `listen_addresses` parameter in `postgresql.conf` to `'*'`
 
