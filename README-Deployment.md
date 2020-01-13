@@ -92,7 +92,6 @@ In brief:
     sudo apt-get update
 
     sudo apt-get install certbot python-certbot-nginx 
-
     sudo certbot --nginx
 ```
 To test Certbot's ability to autorenew, run
@@ -100,18 +99,29 @@ To test Certbot's ability to autorenew, run
 sudo certbot renew --dry-run
 ```
  Https should now be enabled. The api will be accessable from `https://api.imx.com`
+
 #### Setup Postgres
+
+* Note:  I had to run with uppercase.
+
 ```
-sudo -i -u postgres
-createuser imxadmin with password "your chosen password"
-createdb imx
-alter role imxadmin with login
+sudo -u postgres psql
+createuser imxadmin with password "your chosen password";
+createdb imx;
+alter role imxadmin with login;
 ```
 If the database is on a separate server to the api server, you'll need to open a port in the firewall:
 ```
 ufw allow 5432
 ```
-Add the following lines to `pg_hba.conf` 
+Add the following lines to `pg_hba.conf` in `/etc/postgress/10/main` or to find `pg_hba.conf` and `postgresql.conf`:
+```
+sudo -i -u postgres
+psql -U postgres -c 'SHOW config_file'
+psql -t -P format=unaligned -c 'show hba_file';
+```
+
+### pg_hba.conf
 ```
 hostnossl  all  all  0.0.0.0/0     reject
 hostnossl  all  all  ::/0          reject
@@ -119,13 +129,7 @@ hostssl imx imxadmin    0.0.0.0/0   md5
 ```
 Change the `listen_addresses` parameter in `postgresql.conf` to `'*'`
 
-To find `pg_hba.conf` and `postgresql.conf`:
-```
-sudo -i -u postgres
-psql -U postgres -c 'SHOW config_file'
-psql -t -P format=unaligned -c 'show hba_file';
-```
-
+Restart the service `sudo service postgresql restart`
 
 **Current server details:**
 Postgres admin access for the `imx` database is provided with the `imxadmin` postgres role. This role can create and drop tables. General access for querying the database, adding, and deleting records is provided with the `imxaccess` postgres role.
