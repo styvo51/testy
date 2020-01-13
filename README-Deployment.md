@@ -107,7 +107,7 @@ createuser imxadmin with password "your chosen password"
 createdb imx
 alter role imxadmin with login
 ```
-If the database is on a separate server:
+If the database is on a separate server to the api server, you'll need to open a port in the firewall:
 ```
 ufw allow 5432
 ```
@@ -117,13 +117,15 @@ hostnossl  all  all  0.0.0.0/0     reject
 hostnossl  all  all  ::/0          reject
 hostssl imx imxadmin    0.0.0.0/0   md5
 ```
+Change the `listen_addresses` parameter in `postgresql.conf` to `'*'`
+
 To find `pg_hba.conf` and `postgresql.conf`:
 ```
 sudo -i -u postgres
 psql -U postgres -c 'SHOW config_file'
 psql -t -P format=unaligned -c 'show hba_file';
 ```
-Change the `listen_addresses` parameter in `postgresql.conf` to `'*'`
+
 
 **Current server details:**
 Postgres admin access for the `imx` database is provided with the `imxadmin` postgres role. This role can create and drop tables. General access for querying the database, adding, and deleting records is provided with the `imxaccess` postgres role.
