@@ -36,7 +36,7 @@ Installation will:
 A deploy script has been provided to handle this automagically.
 
 ```bash
-git clone https://github.com/bitcoinbrisbane/imx.git
+git clone https://github.com/dltx/imx.git
 cd imx
 sudo chmod u+x deploy.sh
 sudo ./deploy.sh
