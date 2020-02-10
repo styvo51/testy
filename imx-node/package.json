@@ -1,0 +1,23 @@
+{
+  "name": "imx-node",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./src/bin/www",
+    "test": "jest --forceExit"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "fuse.js": "^3.4.6",
+    "morgan": "~1.9.1",
+    "pg": "^7.17.1"
+  },
+  "devDependencies": {
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
+  }
+}
