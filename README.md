@@ -1,5 +1,11 @@
 # imx
 
+## Domain API details
+`https://api.pricefinder.com.au/v1/swagger/index.html`
+
+Username: `578solutions_api`
+Password:  `578apitest` 
+
 ## Setup
 
 ```
