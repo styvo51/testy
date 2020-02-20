@@ -1,12 +1,19 @@
 function auth(req, res, next) {
-  // do any checks you want to in here
+  try {
+    // Verify against .env key
+    if (req.query.key == process.env.API_KEY) return next();
 
-  // CHECK THE USER STORED IN SESSION FOR A CUSTOM VARIABLE
-  // you can do this however you want with whatever variables you set up
-  if (req.query.key == process.env.APIKEY) return next();
-
-  // IF A USER ISN'T LOGGED IN, THEN REDIRECT THEM SOMEWHERE
-  res.json({ error: "API Key is invalid" });
+    // Throw error if the key isn't valid
+    throw {
+      error: "Unable to authenticate your api key",
+      status: 403
+    };
+  } catch (e) {
+    console.log(e);
+    res
+      .status(e.status || 400)
+      .send({ error: e.error || "Bad request", errorFields: e.errorFields });
+  }
 }
 
 module.exports = auth;
