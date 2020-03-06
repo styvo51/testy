@@ -1,34 +1,21 @@
 const db = require("../database/connection");
 async function setSearchRecord(
   apiKey,
-  ip,
-  firstName,
   lastName,
   address1,
   address2,
   postcode,
   state,
   match,
-  nicknames
+  corporate
 ) {
   try {
     await db.query(
       `
-          insert into confirm_records (api_key, ip, first_name, last_name, address1, address2, postcode, state, match, nicknames)
-          values ($1,$2,$3,$4,$5,$6,$7,$8, $9, $10)
+          insert into confirm_records (api_key, last_name, address1, address2, postcode, state, match, corporate)
+          values ($1,$2,$3,$4,$5,$6,$7,$8)
           `,
-      [
-        apiKey,
-        ip,
-        firstName,
-        lastName,
-        address1,
-        address2,
-        postcode,
-        state,
-        match,
-        nicknames
-      ]
+      [apiKey, lastName, address1, address2, postcode, state, match, corporate]
     );
   } catch (error) {
     console.log(error);

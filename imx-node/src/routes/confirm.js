@@ -25,14 +25,14 @@ router.post("/", auth, ratelimit, async (req, res, next) => {
       }, {});
       throw { error: "Validation failed", errorFields, status: 400 };
     }
-    // access body data with value.firstName, etc
+    // const propertyId = 555;
+    // const accessToken = "ec2e8f74e034a6832e83d5a177ecba1";
+
     // Get Domain access token
     const accessToken = await getAccessToken(
       process.env.DOMAIN_ID,
       process.env.DOMAIN_SECRET
     );
-    // const propertyId = 555;
-    // const accessToken = "ec2e8f74e034a6832e83d5a177ecba1";
     const propertyId = await getPropertyId(
       accessToken,
       value.address1,
@@ -51,28 +51,18 @@ router.post("/", auth, ratelimit, async (req, res, next) => {
     const domainMatch = await getDomainMatch(
       accessToken,
       value.lastName,
-      propertyId,
-      value.state,
-      value.postcode,
-      value.firstName,
-      value.nicknames
+      propertyId
     );
-    if (domainMatch.error) {
-      res.status(200).json(domainMatch);
-      return;
-    }
     // Save search record
     await setSearchRecord(
       String(process.env.API_KEY),
-      req.ip,
-      value.firstName,
       value.lastName,
       value.address1,
       value.address2,
       value.postcode,
       value.state,
       domainMatch.match,
-      value.nicknames.join(",")
+      domainMatch.corporate
     );
 
     res.status(200).json(domainMatch);

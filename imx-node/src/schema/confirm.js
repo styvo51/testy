@@ -1,14 +1,8 @@
 const Joi = require("@hapi/joi");
 
 const ConfirmSchema = Joi.object().keys({
-  firstName: Joi.string()
-    .label("First Name")
-    .required(),
   lastName: Joi.string()
     .label("Last Name")
-    .required(),
-  nicknames: Joi.array()
-    .items(Joi.string())
     .required(),
   address1: Joi.string()
     .label("Address 1")

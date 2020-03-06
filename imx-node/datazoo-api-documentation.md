@@ -1,7 +1,7 @@
 # Confirm a Name/Address pair
 
-Will return `true` if the person and the address match, and `false` otherwise. Address matches are based on property title, and may not accurately reflect tentant details.
-Data for Tasmania is unavailable. Data coverage for Northern Territory and South Australia is incomplete.
+Will return true if the surname and address match, or if the property is held by a corporation.
+Data coverage for TAS, ACT, NT, and SA is incomplete or unavailable, and may return a false negative/postive.
 
 **URL** : `https://api.imxdata.com.au/confirm`
 
@@ -25,12 +25,10 @@ Provide name and address to check. Last name must be exact.
 
 ```json
 {
-  "firstName": "[string]",
-  "nicknames": "[list of strings]",
   "lastName": "[string]",
   "address1": "[string]",
   "address2": "[string]",
-  "postcode": "[3 or 4 digit integer]",
+  "postcode": "[3 or 4 digit integer, beginning with 1]",
   "state": "[string, one of: QLD, NSW, ACT, VIC, TAS, NT, WA, SA]"
 }
 ```
@@ -39,9 +37,7 @@ Provide name and address to check. Last name must be exact.
 
 ```json
 {
-  "first_name": "John",
   "last_name": "Smith",
-  "nicknames": [],
   "address1": "239 George St",
   "address2": "Brisbane",
   "postcode": "4000",
@@ -51,7 +47,7 @@ Provide name and address to check. Last name must be exact.
 
 ## Success Response
 
-**Condition** : If everything is OK and the details match current records.
+**Condition** : If everything is OK and a match was made.
 
 **Code** : `200 OK`
 
@@ -60,15 +56,13 @@ Provide name and address to check. Last name must be exact.
 ```json
 {
   "match": true,
+  "corporate": false,
+  "owner": "Eleanor Jean & John Peter Smith",
   "matchedOn": {
-    "surname": "Smith",
-    "nicknames": ["Tony"],
-    "firstName": ""
+    "surname": "Smith"
   },
   "tried": {
-    "surname": "Smith",
-    "nicknames": ["Tony"],
-    "firstName": "Anthony"
+    "surname": "Smith"
   }
 }
 ```
@@ -76,7 +70,6 @@ Provide name and address to check. Last name must be exact.
 ### Or
 
 **Condition** : If everything is OK and the details do not match current records.
-incomplete
 **Code** : `200 OK`
 
 **Content example**
@@ -84,10 +77,26 @@ incomplete
 ```json
 {
   "match": false,
+  "corporate": false,
   "tried": {
-    "surname": "Smith",
-    "nicknames": ["Tony"],
-    "firstName": "Anthony"
+    "surname": "Smith"
+  }
+}
+```
+
+### Or
+
+**Condition** : If the address has a corporate owner
+**Code** : `200 OK`
+**Content example**
+
+```json
+{
+  "match": false,
+  "corporate": true,
+  "owner": "XYZ PTY LTD",
+  "tried": {
+    "surname": "smith"
   }
 }
 ```

@@ -1,9 +1,9 @@
 exports.matchSingleName = (firstName, ownerNames) => {
   const firstNameRegExp = new RegExp(firstName, "gi");
   if (ownerNames.search(firstNameRegExp) != -1) {
-    return firstName;
+    return true;
   }
-  return "";
+  return false;
 };
 exports.matchNickname = (nicknames, ownerNames) => {
   let nameRegExp = new RegExp();
@@ -18,7 +18,7 @@ exports.matchInitial = (firstName, nicknames, ownerNames) => {
   let nameSet = [...nicknames, firstName];
   let initial = "";
   let nameRegExp = new RegExp();
-  return nameSet.map(name => {
+  return nameSet.filter(name => {
     initial = name.slice(0, 1);
 
     nameRegExp = new RegExp(initial, "i");
@@ -29,48 +29,57 @@ exports.matchInitial = (firstName, nicknames, ownerNames) => {
 };
 
 exports.processNameData = (lastName, ownerNames) => {
-  /* Must account for: Type, pattern, regex
-   * 1 surname; firstname /\w+; \w+/gi
-   * 2 first middle & first middle lastname /\w+(\w & \w)\w+/gi
-   * 3 surname
-   * 4 BODY CORPORATE FOR Company Name TITLES SCHEME 12345 /BODY CORPORATE/gi
-   */
   /*
    * Types:
-   * 1. Single owner
-   * 2. Two owners
-   * 3. Unknown/company
-   * 4. Body corporate
+   * 1. Personal/Joint owner
+   * 2. Unknown/Corporate owner
    */
-  const ownerType = getPatternType(ownerNames);
-
-  if (ownerType >= 4) {
-    return {
-      matchName: null,
-      ownerNames: null,
-      type: { error: "Corporate Owner" }
-    };
-  }
   return {
-    ownerNames: ownerNames.toLowerCase().replace(lastName, " "),
-    type: ownerType
+    ownerNames: ownerNames.toLowerCase(),
+    corporate: getPatternType(ownerNames)
   };
 };
 
 function getPatternType(str) {
-  // return order: 4,2,1,3
-  if (str.match(/PTY LTD/gi)) {
-    return 5;
+  // 1 if individual, 2 if unknown/corporate
+  const corpTerms = [
+    "Corporation",
+    "corp",
+    "pty",
+    "ltd",
+    "limited",
+    "proprietary",
+    "nl",
+    "No Liability",
+    "co-operative",
+    "co-op",
+    "securities",
+    "Inc",
+    "incorporated",
+    "body corporate",
+    "trust",
+    "trustee",
+    "trading as",
+    "chartered",
+    "university",
+    "acn",
+    "abn",
+    "pty ltd",
+    "pt",
+    "holdings",
+    "P/L"
+  ];
+  let termRegex;
+  let results = [];
+  corpTerms.forEach(term => {
+    termRegex = new RegExp(term, "gi");
+    if (str.match(termRegex)) {
+      results.push(true);
+      //console.log(str.match(termRegex));
+    }
+  });
+  if (results.length > 0) {
+    return true;
   }
-  if (str.match(/BODY CORPORATE/gi)) {
-    return 4;
-  }
-  if (str.match(/\w+(\w & \w)\w+/gi)) {
-    return 2;
-  }
-  if (str.match(/\w+; \w+/gi)) {
-    return 1;
-  }
-
-  return 3;
+  return false;
 }

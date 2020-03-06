@@ -1,13 +1,7 @@
 const axios = require("axios");
 const querystring = require("querystring");
 const cache = require("../cache");
-const { DomainData } = require("../test");
-const {
-  matchSingleName,
-  matchNickname,
-  matchInitial,
-  processNameData
-} = require("./domainHelpers");
+const { matchSingleName, processNameData } = require("./domainHelpers");
 /**
  * Get access token using client credential auth flow
  * @param {string} clientId Your client's Id
@@ -70,17 +64,9 @@ async function getPropertyId(accessToken, address1, address2, postcode, state) {
   }
 }
 
-async function getDomainMatch(
-  accessToken,
-  lastName,
-  propertyId,
-  state,
-  postcode,
-  firstName,
-  nicknames
-) {
+async function getDomainMatch(accessToken, lastName, propertyId) {
   try {
-    const result = await axios.get(
+    const domain = await axios.get(
       `https://api.pricefinder.com.au/v1/properties/${propertyId}`,
       {
         headers: {
@@ -88,78 +74,45 @@ async function getDomainMatch(
         }
       }
     );
-    const owner = await result.data;
+    const owner = await domain.data;
     // const owner = DomainData;
 
-    if (owner.owners.names.length > 0) {
-      // Check last name
-      if (matchSingleName(lastName, owner.owners.names).length < 1) {
-        return {
-          match: false,
-          tried: {
-            surname: lastName,
-            firstName: firstName,
-            nicknames: nicknames
-          }
-        };
-      }
+    if (owner.owners.names) {
       // Extract name data
-      const { ownerNames, type } = processNameData(
+      const { ownerNames, corporate } = processNameData(
         lastName,
         owner.owners.names
       );
-      if (type.error) {
-        return { match: false, error: type.error };
+      // Check surname
+      const surnameMatch = matchSingleName(lastName, ownerNames);
+      // Return true if a surname match was found
+      if (surnameMatch) {
+        return result(true, false, ownerNames, lastName);
       }
-
-      // Search for nicknames
-      const matchedNicknames = matchNickname(nicknames, ownerNames);
-      // Search for provided given name
-      const matchedFirstName = matchSingleName(
-        firstName,
-
-        ownerNames
-      );
-      // Account for victorian initial problem.
-      const matchedInitial = matchInitial(
-        firstName,
-        nicknames,
-
-        ownerNames
-      );
-
-      // Return true if any of the above turned up a result
-      if (
-        matchedFirstName.length > 0 ||
-        matchedNicknames.length > 0 ||
-        matchedInitial.length > 0
-      ) {
-        return {
-          match: true,
-          matchedOn: {
-            surname: lastName,
-            nicknames: matchedNicknames,
-            firstName: matchedFirstName
-          },
-          tried: {
-            surname: lastName,
-            firstName: firstName,
-            nicknames: nicknames
-          }
-        };
+      // Return if corporate owner
+      if (corporate) {
+        return result(false, true, ownerNames, lastName);
       }
     }
-    return {
-      match: false,
-      tried: { surname: lastName, firstName: firstName, nicknames: nicknames }
-    };
+    return result(false, false, "", lastName);
   } catch (err) {
     console.log(err);
-    return {
-      match: false,
-      tried: { surname: lastName, firstName: firstName, nicknames: nicknames }
-    };
+    return result(false, false, "", lastName);
   }
 }
+
+const result = (match, corporate, owner, surname) => {
+  return {
+    match,
+    corporate,
+    owner,
+    tried: {
+      surname
+    },
+    matchedOn: {
+      surname: match ? surname : ""
+    }
+  };
+};
 
 module.exports = { getAccessToken, getPropertyId, getDomainMatch };
