@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./src/bin/www --trace-sync-io",
+    "start": "node ./src",
+    "dev": "nodemon ./src",
     "test": "jest --forceExit"
   },
   "dependencies": {
