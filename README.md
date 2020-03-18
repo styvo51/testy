@@ -1,6 +1,8 @@
 # Imx Node
 
-A node version of Imx. [![CircleCI](https://circleci.com/github/dltx/imx.svg?style=svg&circle-token=957628dcd018f27fd039620506fdacf30072f8c4)](LINK)
+[![CircleCI](https://circleci.com/gh/dltxio/imx/tree/master.svg?style=svg&circle-token=957628dcd018f27fd039620506fdacf30072f8c4)](https://circleci.com/gh/dltxio/imx/tree/master)
+
+A node version of Imx.
 
 ## Installation
 
