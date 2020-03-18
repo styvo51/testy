@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./src",
     "dev": "nodemon ./src",
-    "test": "jest --forceExit"
+    "test": "jest --silent --forceExit",
+    "ci:test": "jest --silent --ci --runInBand --forceExit"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.0",

@@ -10,6 +10,7 @@ const morgan = require("morgan");
 var indexRouter = require("./routes/index");
 var matchRouter = require("./routes/match");
 const confirmRouter = require("./routes/confirm");
+const oracleRouter = require("./routes/oracle");
 
 var app = express();
 
@@ -25,5 +26,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 // app.use("/match", matchRouter);
 app.use("/confirm", confirmRouter);
+app.use("/oracle", oracleRouter);
 
 module.exports = app;
