@@ -29,9 +29,10 @@ router.post("/match", auth, async (req, res) => {
         SELECT p.id "personId", p.confirmed
         FROM person p
         WHERE
-          p.last_name = $1
+          LOWER(p.last_name) = LOWER($1)
           AND p.dob = $2
-          AND (p.email = $3 OR p.mobile = $4)
+          AND (LOWER(p.email) = LOWER($3) OR p.mobile = $4)
+
       `,
       [lastName, dob, email, mobile]
     );

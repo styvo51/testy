@@ -1,0 +1,13 @@
+[Unit]
+Description=Imx API                      
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/node /var/www/imx/src
+Restart=always
+KillSignal=SIGINT
+User=www-data
+
+[Install]
+WantedBy=multi-user.target

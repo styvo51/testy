@@ -144,6 +144,21 @@ describe("POST /oracle/match", () => {
     expect(response.body.personId).toBe("1"); // NB bigserial and bigint return string values
   });
 
+  it("Finds a match despite different capitalization", async () => {
+    const capitalJohn = { ...john };
+    Object.keys(capitalJohn).forEach(
+      key => (capitalJohn[key] = capitalJohn[key].toUpperCase())
+    );
+    const response = await request
+      .post(`/oracle/match?key=${API_KEY}`)
+      .send(capitalJohn)
+      .expect(200);
+
+    expect(response.body.match).toBe(true);
+    expect(response.body.confirmed).toBe(false);
+    expect(response.body.personId).toBe("1"); // NB bigserial and bigint return string values
+  });
+
   it("Finds a match using last name + dob + email but not mobile", async () => {
     const _john = { ...john };
     _john.mobile = "0499999999"; // changed to different value;

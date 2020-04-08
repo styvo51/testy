@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build-and-test:
     docker:
-      - image: circleci/node:9.9.0
+      - image: circleci/node:dubnium
         environment:
           PGHOST: 127.0.0.1
           PGUSER: postgres
@@ -22,7 +22,18 @@ jobs:
           paths:
             - node_modules
       - run: npm run ci:test
+  deploy-prod:
+    machine:
+      enabled: true
+    steps:
+      - run: ssh root@134.209.99.80 "./deploy.sh"
 workflows:
   build-and-test:
     jobs:
       - build-and-test
+      - deploy-prod:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build-and-test
