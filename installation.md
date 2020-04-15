@@ -30,7 +30,7 @@ git config --global user.email "dltx@protonmail.com"
 git config --global user.name "DLTx"
 ```
 
-### Set up ssh for git hub
+### Set up ssh for GitHub
 
 ```bash
 ssh-keygen -t rsa -b 4096 -C "dltx@protonmail.com"
