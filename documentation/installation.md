@@ -52,18 +52,7 @@ ufw allow 'Nginx HTTP'
 
 Alternatively, 'Nginx HTTPS' allows the port for https traffic.
 
-Update the location section of /etc/nginx/sites-available/default:
-
-```
-location / {
-    proxy_pass http://localhost:5000;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-}
-```
+Create a configuration file at /etc/nginx/conf.d/imx.tpa.company.conf.
 
 Check the configuration is correct and restart nginx:
 
@@ -95,27 +84,28 @@ systemctl start imx.service
 
 ### Environment variables
 
-Edit the file in `/etc/systemd/system/imx.service.d/env.conf` and update environment variables as needed.
+Create a .env file in the root directory (`/var/www/imx`) and update environment variables as needed.
 
 e.g.
 
 ```
-[Service]
-Environment="NODE_ENV=production"
-Environment="PORT=5000"
-Environment="API_KEY=secret"
-Environment="DB_USER=postgres"
-Environment="DB_HOST=localhost"
-Environment="DB_DATABASE=imx"
-Environment="DB_PASSWORD="
-Environment="DB_PORT=5432"
-Environment="DB_TEST_DATABASE=test"
+PGHOST=localhost
+PGUSER=postgres
+PGDATABASE=null
+PGPASSWORD=null
+PGPORT=5432
+DB_TEST_DATABASE=test
+PORT=5003
+NODE_ENV=test
+DATA_ZOO_USERNAME=user
+DATA_ZOO_PASSWORD=password
+DATA_ZOO_DVS_REQUEST_EXPIRY="90 days"
+DATA_ZOO_PEPS_REQUEST_EXPIRY="90 days"
 ```
 
 Then run:
 
 ```
-systemctl daemon-reload
 systemctl restart imx
 ```
 

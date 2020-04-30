@@ -1,31 +1,25 @@
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
-// Routers
-var indexRouter = require("./routes/index");
-var matchRouter = require("./routes/match");
-const confirmRouter = require("./routes/confirm");
-const oracleRouter = require("./routes/oracle");
+const api = require("./routes/api");
+const app = express();
 
-var app = express();
-
-app.use(logger("dev"));
-app.use(helmet());
+// jest --silent does not block logging
+if (process.env.NODE_ENV !== "test") {
+  app.use(logger("dev"));
+  app.use(helmet());
+  app.use(morgan("combined"));
+}
 app.use(cors());
-app.use(morgan("combined"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use("/", indexRouter);
-// app.use("/match", matchRouter);
-app.use("/confirm", confirmRouter);
-app.use("/oracle", oracleRouter);
+app.use("/", api);
+app.get("*", (req, res) => res.status(404).send());
 
 module.exports = app;

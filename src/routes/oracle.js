@@ -1,10 +1,9 @@
 const router = require("express").Router();
 const pool = require("../database/connection");
 const validateSchema = require("../utils/validateSchema");
-const auth = require("../middleware/auth");
 const { matchSchema, confirmSchema } = require("../schema/oracle");
 
-router.post("/match", auth, async (req, res) => {
+router.post("/match", async (req, res) => {
   try {
     // Validate request
     const { value, errors } = validateSchema(req.body, matchSchema);
@@ -21,28 +20,29 @@ router.post("/match", auth, async (req, res) => {
       state,
       postcode,
       email,
-      mobile
+      mobile,
     } = value;
 
     const selectPerson = await pool.query(
       `
-        SELECT p.id "personId", p.confirmed
-        FROM person p
+      WITH matched_person AS (
+        SELECT p.id, c.person_id confirmed
+        FROM person p left join confirmed_people c on c.person_id = p.id 
         WHERE
           LOWER(p.last_name) = LOWER($1)
           AND p.dob = $2
           AND (LOWER(p.email) = LOWER($3) OR p.mobile = $4)
-
+        )
+        SELECT mp.id, mp.confirmed FROM matched_person mp;
       `,
       [lastName, dob, email, mobile]
     );
-
     // Send response if match found;
     if (selectPerson.rowCount)
       return res.json({
-        personId: selectPerson.rows[0].personId,
+        personId: selectPerson.rows[0].id,
         match: true,
-        confirmed: selectPerson.rows[0].confirmed
+        confirmed: selectPerson.rows[0].confirmed ? true : false,
       });
 
     // Continue to insert person if no match found
@@ -53,8 +53,7 @@ router.post("/match", auth, async (req, res) => {
         VALUES 
           ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         RETURNING
-          id, confirmed
-
+          id
       `,
       [firstName, lastName, dob, street, city, state, postcode, email, mobile]
     );
@@ -64,7 +63,7 @@ router.post("/match", auth, async (req, res) => {
     res.status(201).json({
       personId: insertPerson.rows[0].id,
       match: false,
-      confirmed: false
+      confirmed: false,
     });
   } catch (e) {
     console.log(e);
@@ -74,7 +73,7 @@ router.post("/match", auth, async (req, res) => {
   }
 });
 
-router.post("/match/:personId", auth, async (req, res) => {
+router.post("/match/:personId", async (req, res) => {
   try {
     // Validate request
     const { value, errors } = validateSchema(req.params, confirmSchema);
@@ -83,21 +82,24 @@ router.post("/match/:personId", auth, async (req, res) => {
     if (errors) throw { error: "Bad request", errors, status: 400 };
 
     const {
-      rows,
-      rowCount
+      rowCount,
     } = await pool.query(
-      "UPDATE person p SET confirmed = true WHERE p.id = $1",
-      [value.personId]
+      "INSERT INTO confirmed_people (person_id, user_id) VALUES ($1, $2)",
+      [value.personId, req.user.userId]
     );
 
     if (!rowCount)
       throw {
         error: `Unable to find person with id ${value.personId}`,
-        status: 404
+        status: 404,
       };
 
     res.status(204).send();
   } catch (e) {
+    if (e.constraint === "confirmed_people_person_id_fkey") {
+      e.status = 404;
+      e.error = `Unable to find person with id ${req.params.personId}`;
+    }
     console.log(e);
     res
       .status(e.status || 500)

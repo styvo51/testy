@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/node /var/www/imx/src
+ExecStart=/usr/bin/npm start --prefix /var/www/imx
 Restart=always
 KillSignal=SIGINT
 User=www-data
