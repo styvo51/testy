@@ -100,6 +100,10 @@ router.post("/match/:personId", async (req, res) => {
       e.status = 404;
       e.error = `Unable to find person with id ${req.params.personId}`;
     }
+    if (e.constraint === "confirmed_people_pkey") {
+      e.status = 400;
+      e.error = `Person with id ${req.params.personId} has already been confirmed`;
+    }
     console.log(e);
     res
       .status(e.status || 500)
