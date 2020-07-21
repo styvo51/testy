@@ -22,11 +22,22 @@ jobs:
       enabled: true
     steps:
       - run: ssh root@imx.tpa.company "./deploy.sh"
+  deploy-test:
+    machine:
+      enabled: true
+    steps:
+      - run: ssh root@test.imx.tpa.company "./deploy.sh"
 workflows:
   build-and-test:
     jobs:
       - build-and-test
       - deploy-prod:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build-and-test
+      - deploy-test:
           filters:
             branches:
               only: master

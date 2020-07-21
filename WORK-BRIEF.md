@@ -1,0 +1,12 @@
+- New route: POST /contacts
+  - Parameters: Name, address
+  - Returns: {status: "true/false", contacts:[owner_name:{first, last}, email, phone, postal address, mobile]} Status indicates whether the requested person is the owner of the property or not.
+- New Route: POST /contacts/confirmed
+  - Body: first, last, apt, address, city, state, postcode, email, mobile, dob
+  - Supports partial confirmation
+  - Used to allow patch to pass back confirmed person details.
+- API documentation for the new route, including example request/response and response codes
+- Unit tests for the new route
+- Developer environment for the new route
+  - GET /dev/contacts
+  - Documentation for use with a set of valid and invalid parameters. The dev environment matches the production api spec with the exception of the /dev/ prefix
