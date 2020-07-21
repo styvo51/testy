@@ -39,14 +39,11 @@ Environment variables should be stored in a .env file in the root directory. For
 | PGDATABASE                   | no        | process.env.USER                        |
 | PGPASSWORD                   | no        | null                                    |
 | PGPORT                       | no        | 5432                                    |
-| DOMAIN_ID                    | yes       | id                                      |
-| DOMAIN_SECRET                | yes       | secret                                  |
 
 - `NODE_ENV`: This should either be 'development', 'produciton', or 'test'.
 - `DB_TEST_DATABASE`: This should NOT be the same as PGDATABASE. All the tables on the test database are dropped before each test so proceed with caution.
 - `DATA_ZOO_DVS_REQUEST_EXPIRY`: This is the time in which the response received from the datazoo api is reused for matching requests from end users. It takes the format 'number unit', e.g. '1 second', '2 years', '30 days', etc.
 - `DATA_ZOO_PEPS_REQUEST_EXPIRY`: Same as above, but for the politically exposed persons endpoint.
-- `DOMAIN_ID` and `DOMAIN_SECRET`: Credentials to retrieve data from the Domain Price Finder api.
 
 ## Security
 

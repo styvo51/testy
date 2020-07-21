@@ -6,7 +6,7 @@ const ratelimit = require("../middleware/ratelimit");
 const {
   getAccessToken,
   getPropertyId,
-  getDomainMatch,
+  getDomainMatch
 } = require("../apis/domain");
 const { setSearchRecord } = require("../models/search-record");
 
@@ -15,7 +15,7 @@ router.post("/", auth, ratelimit, async (req, res, next) => {
     // validate request
     const { error, value } = ConfirmSchema.validate(req.body, {
       allowUnknown: true,
-      abortEarly: false,
+      abortEarly: false
     });
     // handle any errors
     if (error) {
@@ -43,7 +43,7 @@ router.post("/", auth, ratelimit, async (req, res, next) => {
     if (!propertyId) {
       res.status(500).json({
         error:
-          "An error has occured. If this problem persists, please contact support.",
+          "An error has occured. If this problem persists, please contact support."
       });
       return;
     }

@@ -20,6 +20,7 @@ const connect = async () => {
 
   return client;
 };
+
 // Init tables based on db-scripts
 const initTables = async (client) => {
   await client.query("DROP SCHEMA public CASCADE");

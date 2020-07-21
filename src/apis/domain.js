@@ -14,7 +14,7 @@ async function getAccessToken(clientId, secret) {
       const data = querystring.stringify({
         grant_type: "client_credentials",
         client_id: clientId,
-        client_secret: secret,
+        client_secret: secret
       });
       const accessToken = await axios.post(
         "https://api.pricefinder.com.au/v1/oauth2/token",
@@ -22,8 +22,8 @@ async function getAccessToken(clientId, secret) {
         {
           headers: {
             Authorization: `Basic ${clientId}:${secret}`,
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
         }
       );
       cache.set(
@@ -46,14 +46,14 @@ function base64(str) {
 async function getPropertyId(accessToken, address1, address2, postcode, state) {
   try {
     const data = querystring.stringify({
-      q: `${address1} ${address2} ${state} ${postcode}`,
+      q: `${address1} ${address2} ${state} ${postcode}`
     });
     const req = await axios.get(
       `https://api.pricefinder.com.au/v1/suggest/properties?${data}`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+          Authorization: `Bearer ${accessToken}`
+        }
       }
     );
     const propertyData = await req.data;
@@ -70,8 +70,8 @@ async function getDomainMatch(accessToken, lastName, propertyId) {
       `https://api.pricefinder.com.au/v1/properties/${propertyId}`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+          Authorization: `Bearer ${accessToken}`
+        }
       }
     );
     const owner = await domain.data;
@@ -100,34 +100,19 @@ async function getDomainMatch(accessToken, lastName, propertyId) {
     return result(false, false, "", lastName);
   }
 }
-async function getPropertyData(accessToken, propertyId) {
-  const { data } = await axios.get(
-    `https://api.pricefinder.com.au/v1/properties/${propertyId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-  return data;
-}
+
 const result = (match, corporate, owner, surname) => {
   return {
     match,
     corporate,
     owner,
     tried: {
-      surname,
+      surname
     },
     matchedOn: {
-      surname: match ? surname : "",
-    },
+      surname: match ? surname : ""
+    }
   };
 };
 
-module.exports = {
-  getAccessToken,
-  getPropertyId,
-  getDomainMatch,
-  getPropertyData,
-};
+module.exports = { getAccessToken, getPropertyId, getDomainMatch };
