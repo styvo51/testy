@@ -26,7 +26,8 @@
     "node-cache": "^5.1.0",
     "object-hash": "^2.0.3",
     "pg": "^8.0.3",
-    "url-pattern": "^1.0.3"
+    "url-pattern": "^1.0.3",
+    "uuid": "^8.2.0"
   },
   "devDependencies": {
     "jest": "^25.5.3",

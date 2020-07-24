@@ -39,11 +39,14 @@ Environment variables should be stored in a .env file in the root directory. For
 | PGDATABASE                   | no        | process.env.USER                        |
 | PGPASSWORD                   | no        | null                                    |
 | PGPORT                       | no        | 5432                                    |
+| DOMAIN_ID                    | yes       | id                                      |
+| DOMAIN_SECRET                | yes       | secret                                  |
 
 - `NODE_ENV`: This should either be 'development', 'produciton', or 'test'.
 - `DB_TEST_DATABASE`: This should NOT be the same as PGDATABASE. All the tables on the test database are dropped before each test so proceed with caution.
 - `DATA_ZOO_DVS_REQUEST_EXPIRY`: This is the time in which the response received from the datazoo api is reused for matching requests from end users. It takes the format 'number unit', e.g. '1 second', '2 years', '30 days', etc.
 - `DATA_ZOO_PEPS_REQUEST_EXPIRY`: Same as above, but for the politically exposed persons endpoint.
+- `DOMAIN_ID` and `DOMAIN_SECRET`: Credentials to retrieve data from the Domain Price Finder api.
 
 ## Security
 
@@ -73,3 +76,18 @@ app.use(
   controller
 );
 ```
+
+## Deployment
+
+### Test API
+
+The test api is the sandbox environment for clients to develop with before going live with the production api. It currently runs in a Digital Ocean NodeJS droplet. The app itself is located in `/var/www/imx`. On a commit to `master`, CircleCI will run the `deploy-test.sh` script that is located in `/root`. This script is the same as `deploy-scripts/deploy-test.sh`. The script will stash any changes, pull in the latest from `master`, install any dependancies, and restart the app useing `pm2 restart imx`.
+
+The test api app itself is managed with `pm2` instead of `systemd` as on production. PM2 will watch for file changes and will automatically restart if any files in `/var/www/imx` change (except for changes to `node_modules`). Logs for pm2 can be accessed with `pm2 logs --lines 1000`
+
+The test api uses a postgres database that is running on the same droplet as itself.
+Test api database credentials: user `testapi` password `admin`. The test database is the default `postgres` database. **Any changes to the production schema must be manually applied to the test api database**.
+
+### Production API
+
+The production api is running on a standard ubuntu digital ocean droplet, with nginx acting as a reverse proxy. The production api app is managed as a `systemd` service to automatically restart it if it crashes. The production app is located in `/var/www/imx`. CircleCI will run `deploy.sh` on commit to master. This script is the same as the one in `deploy-scripts/deploy.sh`.
