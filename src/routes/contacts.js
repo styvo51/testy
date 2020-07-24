@@ -34,10 +34,8 @@ router.post("/", async (req, res, next) => {
 
     const { street, city, state, postcode } = value;
 
-    if (state === "TAS") {
-      res
-        .status(200)
-        .json({ ...results, message: "Tasmania is unavailable for search" });
+    if (state === "TAS" || (postcode >= 7000 && postcode <= 7999)) {
+      res.status(200).json({ error: "Tasmania is unavailable for search" });
     }
 
     // Get domain access token
