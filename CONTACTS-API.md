@@ -1,11 +1,17 @@
 # Get contact details for property owner
 
-**Revision** : 1.2.0
-**Revision date** : 17 July 2020
+**Revision** : 1.2.1
+**Revision date** : 28 July 2020
 
 Get the contact details for the owner of a property and confirm if the provided name is the owner (owner/occupier)
 
-**URL** : `imx.tpa.company/contacts`
+**URL** : `https://imx.tpa.company/contacts`
+
+**Live API key** : `LHaeRyudqrFdNFN3SEEh8HCc5MvHW69x`
+
+**Test URL** : `https://test.imx.tpa.company/contacts`
+
+**Test API Key**: `apikey`
 
 **Method** : `POST`
 
@@ -118,7 +124,7 @@ For a property where no contact data is available. In this case, it is possible 
 
 ## Test API
 
-A test api matching the same spec is available at `test.imx.tpa.company/contacts`. The following addresses can be used to query the api.
+A test api matching the same spec is available at `https://test.imx.tpa.company/contacts`. Use `apikey` as the API key. The following addresses can be used to query the api.
 
 ### Owner Occupied
 
