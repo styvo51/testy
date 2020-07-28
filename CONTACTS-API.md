@@ -1,6 +1,6 @@
 # Get contact details for property owner
 
-**Revision** : 1.2.1
+**Revision** : 1.2.1  
 **Revision date** : 28 July 2020
 
 Get the contact details for the owner of a property and confirm if the provided name is the owner (owner/occupier)
@@ -114,11 +114,11 @@ For a property where no contact data is available. In this case, it is possible 
 
 - Contact information is provided on a best efforts basis. Some fields may be missing if they are unavailable. If the `contacts` field is present, then a minimum viable amount of contact data is available.
 - Minimum viable contact data is defined as enough information to be able to contact the target via a single method. Examples include an email address, a phone number, or a complete address. For the purposes of this api, a single `raw_address` counts as contactable.
-- Tasmanian addresses are unavailable for search and will return:
+- Tasmanian addresses are unavailable for search and will return with a 400 error and the following message:
 
 ```json
 {
-  "owner_occupied": false
+  "error": "Tasmania is unavailable for search"
 }
 ```
 
