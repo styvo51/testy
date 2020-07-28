@@ -128,27 +128,33 @@ A test api matching the same spec is available at `https://test.imx.tpa.company/
 
 ### Owner Occupied
 
+```
 {
 "street":"13 Dawn street",
 "city":"Brisbane",
 "state":"QLD",
 "postcode":"4001"
 }
+```
 
 ### Not Owner occupied, but records are available
 
+```
 {
 "street":"33 Ableton Road",
 "city":"Sydney",
 "state":"NSW",
 "postcode":"2000"
 }
+```
 
 ### No records present
 
+```
 {
 "street":"127 Beckett St",
 "city":"Melbourne",
 "state":"VIC",
 "postcode":"3000"
 }
+```
