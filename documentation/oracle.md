@@ -63,7 +63,7 @@ Possible status codes:
 
 Request:
 
-- **url** : `"https://.../oracle/match?key=apikey"`
+- **url** : `"https://imx.tpa.company/oracle/match?key=apikey"`
 - **method** : `POST`
 - **content-type**: `application/json`
 - **body**:
@@ -124,7 +124,7 @@ Possible status codes:
 
 Request:
 
-- **url** : `"https://.../oracle/match/1?key=apikey"`
+- **url** : `"https://imx.tpa.company/oracle/match/1?key=apikey"`
 - **method** : `POST`
 - **content-type**: `application/json`
 
