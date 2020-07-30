@@ -38,7 +38,7 @@ Possible status codes:
 
 Request:
 
-- **url** : `"https://.../verify-document/driverslicence?key=apikey"`
+- **url** : `"https://imx.tpa.company/verify-document/driverslicence?key=apikey"`
 - **method** : `POST`
 - **content-type**: `application/json`
 - **body**:
@@ -102,7 +102,7 @@ Possible status codes:
 
 Request:
 
-- **url** : `"https://.../verify-document/passport?key=apikey"`
+- **url** : `"https://imx.tpa.company/verify-document/passport?key=apikey"`
 - **method** : `POST`
 - **content-type**: `application/json`
 - **body**:
@@ -165,7 +165,7 @@ Possible status codes:
 
 Request:
 
-- **url** : `"https://.../verify-document/medicarecard?key=apikey"`
+- **url** : `"https://imx.tpa.company/verify-document/medicarecard?key=apikey"`
 - **method** : `POST`
 - **content-type**: `application/json`
 - **body**:
