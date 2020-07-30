@@ -10,7 +10,12 @@ const auth = require("../middleware/auth");
 
 // router.use("/match", matchRouter);
 router.use("/confirm", confirmRouter);
-router.use("/oracle", auth, whitelistByUsers(["Oracle"]), oracleRouter);
+router.use(
+  "/oracle",
+  auth,
+  whitelistByUsers(["Oracle", "Bartercard"]),
+  oracleRouter
+);
 router.use("/verify-document", auth, verifyDocumentRouter);
 router.use("/politically-exposed-persons", auth, pepsRouter);
 router.use("/contacts", auth, contactsRouter);
