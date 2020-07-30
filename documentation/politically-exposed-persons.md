@@ -30,7 +30,7 @@ Possible status codes:
 
 Request:
 
-- **url** : `"https://.../politically-exposed-persons?key=apikey"`
+- **url** : `"https://imx.tpa.company/politically-exposed-persons?key=apikey"`
 - **method** : `POST`
 - **content-type**: `application/json`
 - **body**:

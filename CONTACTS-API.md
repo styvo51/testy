@@ -7,7 +7,7 @@ Get the contact details for the owner of a property and confirm if the provided 
 
 **URL** : `https://imx.tpa.company/contacts`
 
-**Live API key** : `LHaeRyudqrFdNFN3SEEh8HCc5MvHW69x`
+**Live API key** : `provided by tpa`
 
 **Test URL** : `https://test.imx.tpa.company/contacts`
 
