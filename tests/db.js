@@ -33,6 +33,15 @@ const initTables = async (client) => {
     .split(";");
 
   await Promise.all(tableScripts.map(async (sql) => await client.query(sql)));
+  const logScripts = fs
+    .readFileSync(
+      path.resolve(__dirname, "../db-scripts/03-request-logs.sql"),
+      "utf8"
+    )
+    .toString()
+    .split(";");
+
+  await Promise.all(logScripts.map(async (sql) => await client.query(sql)));
 };
 
 const seedPeople = async (client) =>
