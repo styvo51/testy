@@ -4,7 +4,6 @@ const cache = require("memory-cache");
 axios.defaults.adapter = require("axios/lib/adapters/http");
 
 const datazoo = axios.create({
-  // baseURL: "http://localhost:5001",
   baseURL:
     process.env.NODE_ENV === "production"
       ? "https://rest.datazoo.com/api"

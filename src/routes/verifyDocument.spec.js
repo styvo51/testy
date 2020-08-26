@@ -11,6 +11,7 @@ let client;
  *        (from datazoo documentation)
  ********************************************/
 const driversLicenceRequest = {
+  countryCode: "AU",
   firstName: "John", // mandatory input
   middleName: null, // required if present on Licence
   lastName: "Smith", // mandatory input
@@ -36,6 +37,7 @@ const driversLicenceResponse = {
 };
 
 const passportRequest = {
+  countryCode: "AU",
   firstName: "John", // mandatory input
   middleName: null, //required if present on Passport
   lastName: "Smith", // mandatory input
@@ -59,6 +61,7 @@ const passportResponse = {
 };
 
 const medicarecardRequest = {
+  countryCode: "AU",
   firstName: "John", // mandatory input
   middleName: "Allen", //required if initials are present on Medicare card
   lastName: "Smith", // mandatory input

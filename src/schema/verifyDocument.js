@@ -2,6 +2,7 @@ const joi = require("@hapi/joi");
 const moment = require("moment");
 
 const common = joi.object({
+  countryCode: joi.string().length(2).uppercase().valid("AU", "NZ").required(),
   firstName: joi.string().trim().required(),
   middleName: joi.string().trim().optional().allow(null),
   lastName: joi.string().trim().required(),
@@ -9,10 +10,17 @@ const common = joi.object({
     .string()
     .pattern(/^\d{4}-[01]\d-[0123]\d$/, "YYYY-MM-DD")
     .required(),
-  thirdPartyDatasetsConsentObtained: joi.boolean().required().valid(true),
 });
 
-const DriversLicenceVerificationSchema = common.concat(
+const NZDriversLicenceVerificationSchema = common.concat(
+  joi.object({
+    driversLicenceNo: joi.string().required(),
+    driversLicenceVersion: joi.string().required(),
+    driversLicenceConsentObtained: joi.boolean().required().valid(true),
+  })
+);
+
+const AUDriversLicenceVerificationSchema = common.concat(
   joi.object({
     driversLicenceNo: joi.string().required(),
     driversLicenceState: joi
@@ -20,11 +28,13 @@ const DriversLicenceVerificationSchema = common.concat(
       .pattern(/^(QLD|NSW|ACT|VIC|TAS|SA|WA|NT)$/)
       .message('"state" must be QLD, NSW, ACT, VIC, TAS, SA, WA or NT')
       .uppercase(),
+    thirdPartyDatasetsConsentObtained: joi.boolean().required().valid(true),
   })
 );
 
 const PassportVerificationSchema = common.concat(
   joi.object({
+    thirdPartyDatasetsConsentObtained: joi.boolean().required().valid(true),
     passportNo: joi.string().min(8).max(9).required(),
     gender: joi
       .string()
@@ -36,6 +46,7 @@ const PassportVerificationSchema = common.concat(
 
 const MedicareCardVerificationSchema = common.concat(
   joi.object({
+    thirdPartyDatasetsConsentObtained: joi.boolean().required().valid(true),
     medicareCardNo: joi.string().required(),
     medicareCardType: joi
       .string()
@@ -63,7 +74,8 @@ const MedicareCardVerificationSchema = common.concat(
   })
 );
 module.exports = {
-  DriversLicenceVerificationSchema,
+  NZDriversLicenceVerificationSchema,
+  AUDriversLicenceVerificationSchema,
   PassportVerificationSchema,
   MedicareCardVerificationSchema,
 };

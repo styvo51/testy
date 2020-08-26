@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./src",
     "dev": "nodemon ./src",
-    "test": "jest -i --forceExit --silent",
+    "test": "jest -i --forceExit",
     "ci:test": "jest --silent --verbose --ci -i --forceExit"
   },
   "dependencies": {

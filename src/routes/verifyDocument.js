@@ -4,8 +4,10 @@ const hash = require("object-hash");
 const dz = require("../apis/datazoo");
 const pool = require("../database/connection");
 const validateSchema = require("../utils/validateSchema");
+const { getVerifyDatasource } = require("../apis/datazooHelpers");
 const {
-  DriversLicenceVerificationSchema,
+  NZDriversLicenceVerificationSchema,
+  AUDriversLicenceVerificationSchema,
   PassportVerificationSchema,
   MedicareCardVerificationSchema,
 } = require("../schema/verifyDocument");
@@ -19,24 +21,36 @@ router.post("/:document", async (req, res) => {
     const hashedRequest = hash(req.body);
     let schema;
 
-    switch (req.params.document) {
-      case "driverslicence":
-        schema = DriversLicenceVerificationSchema;
+    switch (true) {
+      case req.params.document === "driverslicence" &&
+        req.body.countryCode === "AU":
+        schema = AUDriversLicenceVerificationSchema;
         break;
-      case "passport":
+      case req.params.document === "driverslicence" &&
+        req.body.countryCode === "NZ":
+        schema = NZDriversLicenceVerificationSchema;
+        break;
+      case req.params.document === "passport" && req.body.countryCode === "AU":
         schema = PassportVerificationSchema;
         break;
-      case "medicarecard":
+      case req.params.document === "medicarecard" &&
+        req.body.countryCode === "AU":
         schema = MedicareCardVerificationSchema;
         break;
       default:
-      // no default
+        // Throw if a schema isn't found.
+        throw {
+          status: 400,
+          error:
+            "Unable to validate request. Medicare and Passport requests are only available for Australian documents",
+        };
     }
 
     // Validate request body against schema
     const { value, errors } = validateSchema(req.body, schema, {
       allowUnknown: false,
       stripUnknown: false,
+      convert: true,
     });
 
     // Handle any errors
@@ -68,14 +82,21 @@ router.post("/:document", async (req, res) => {
         .add(dvsExpiryAmount, dvsExpiryUnit)
         .isAfter(moment())
     ) {
-      return res.send(cachedResponse.response);
+      res.json(cachedResponse.response);
+      return;
     }
+    const config = getVerifyDatasource(value.countryCode);
 
     // Request verification from dz
-    const { data } = await dz.post("/Australia/Verify.json", {
-      ...value,
-      dataSources: ["Australian Third Party Datasets"],
+    const searchValues = { ...value };
+    delete searchValues.countryCode;
+    const { data } = await dz.post(`/${config.country}/Verify.json`, {
+      ...searchValues,
+      dataSources: config.datasources,
     });
+    if (data.messages) {
+      throw { status: 500, error: "Dataset unavailable", errors };
+    }
     // Store response for reuse
     await pool.query(
       `
@@ -84,14 +105,6 @@ router.post("/:document", async (req, res) => {
       `,
       [hashedRequest, req.body, data]
     );
-
-    // try {
-    //   // await pool.query;
-    //   if (data.thirdPartyDatasets.verified) {
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    // }
 
     res.json(data);
   } catch (e) {

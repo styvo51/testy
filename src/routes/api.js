@@ -20,6 +20,6 @@ router.use("/verify-document", auth, verifyDocumentRouter);
 router.use("/politically-exposed-persons", auth, pepsRouter);
 router.use("/contacts", auth, contactsRouter);
 
-router.get("/", (req, res) => res.send("IMX Api"));
+router.get("/", (req, res) => res.send("4MDB Api"));
 
 module.exports = router;
