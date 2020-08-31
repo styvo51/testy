@@ -6,7 +6,7 @@ const pool = require("../database/connection");
 const validateSchema = require("../utils/validateSchema");
 const { PepsSchema } = require("../schema/politicallyExposedPersons");
 const router = express.Router();
-
+const errorLog = require("../utils/errorLogger");
 router.post("/", async (req, res) => {
   try {
     const hashedRequest = hash(req.body);
@@ -66,6 +66,11 @@ router.post("/", async (req, res) => {
     res.json(data);
   } catch (e) {
     console.error(e);
+    errorLog(
+      req.user.userId,
+      JSON.stringify(e),
+      JSON.stringify(e.error || "Something went wrong")
+    );
     res
       .status(e.status || 500)
       .send({ error: e.error || "Something went wrong", errors: e.errors });

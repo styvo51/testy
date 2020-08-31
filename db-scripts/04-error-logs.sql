@@ -2,7 +2,7 @@ CREATE TABLE "error_logs" (
   "id" SERIAL PRIMARY KEY,
   "created" timestamptz NOT NULL DEFAULT (now()),
   "user_id" int NOT NULL,
-  "raw_error" json NOT NULL
+  "internal_error" json NOT NULL, 
   "client_error" json NOT NULL
 );
 

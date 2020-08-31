@@ -4,7 +4,7 @@ const match = require("../models/match");
 const utils = require("../middleware/matchUtils");
 const Fuse = require("fuse.js");
 const auth = require("../middleware/auth");
-
+const errorLog = require("../utils/errorLogger");
 const domainAPICall = false; //require("../domainCall");
 
 /* POST match
@@ -23,7 +23,7 @@ router.post("/", auth, async (req, res, next) => {
       keys: ["first_name", "last_name"],
       includeScore: true,
       shouldSort: true,
-      threshold: 0.25
+      threshold: 0.25,
     });
     const fuzzySearch = fuse.search(body.first_name, body.last_name);
     let imxPerson;
@@ -139,10 +139,15 @@ router.post("/", auth, async (req, res, next) => {
       .json({
         match: compareResult,
         confidence: (1 - imxPerson.score).toFixed(2),
-        person: imxPerson
+        person: imxPerson,
       });
   } catch (e) {
     console.log(e);
+    errorLog(
+      req.user.userId,
+      JSON.stringify(e),
+      JSON.stringify(e.error || "Something went wrong")
+    );
     res
       .status(e.status || 500)
       .json({ error: e.error || "Something went wrong" });

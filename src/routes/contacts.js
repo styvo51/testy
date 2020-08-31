@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const pool = require("../database/connection");
+const errorLog = require("../utils/errorLogger");
 // const validateSchema = require("../../utils/validateSchema");
 const { ContactSchema } = require("../schema/contacts");
 if (process.env.NODE_ENV === "test") {
@@ -167,6 +168,11 @@ router.post("/", async (req, res, next) => {
     res.status(200).json(results);
   } catch (e) {
     console.error(e);
+    errorLog(
+      req.user.userId,
+      JSON.stringify(e),
+      JSON.stringify(e.error || "Something went wrong")
+    );
     res
       .status(e.status || 400)
       .send({ error: e.error || "Bad request", errorFields: e.errorFields });

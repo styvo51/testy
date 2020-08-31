@@ -9,6 +9,7 @@ const {
   getDomainMatch,
 } = require("../apis/domain");
 const { setSearchRecord } = require("../models/search-record");
+const errorLog = require("../utils/errorLogger");
 
 router.post("/", auth, ratelimit, async (req, res, next) => {
   try {
@@ -68,6 +69,11 @@ router.post("/", auth, ratelimit, async (req, res, next) => {
     res.status(200).json(domainMatch);
   } catch (e) {
     console.log(e);
+    errorLog(
+      req.user.userId,
+      JSON.stringify(e),
+      JSON.stringify(e.error || "Something went wrong")
+    );
     res
       .status(e.status || 400)
       .send({ error: e.error || "Bad request", errorFields: e.errorFields });

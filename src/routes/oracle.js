@@ -2,7 +2,7 @@ const router = require("express").Router();
 const pool = require("../database/connection");
 const validateSchema = require("../utils/validateSchema");
 const { matchSchema, confirmSchema } = require("../schema/oracle");
-
+const errorLog = require("../utils/errorLogger");
 router.post("/match", async (req, res) => {
   try {
     // Validate request
@@ -67,6 +67,11 @@ router.post("/match", async (req, res) => {
     });
   } catch (e) {
     console.log(e);
+    errorLog(
+      req.user.userId,
+      JSON.stringify(e),
+      JSON.stringify(e.error || "Something went wrong")
+    );
     res
       .status(e.status || 500)
       .send({ error: e.error || "Something went wrong", errors: e.errors });
@@ -96,6 +101,11 @@ router.post("/match/:personId", async (req, res) => {
 
     res.status(204).send();
   } catch (e) {
+    errorLog(
+      req.user.userId,
+      JSON.stringify(e),
+      JSON.stringify(e.error || "Something went wrong")
+    );
     if (e.constraint === "confirmed_people_person_id_fkey") {
       e.status = 404;
       e.error = `Unable to find person with id ${req.params.personId}`;

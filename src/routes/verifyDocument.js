@@ -11,6 +11,8 @@ const {
   PassportVerificationSchema,
   MedicareCardVerificationSchema,
 } = require("../schema/verifyDocument");
+const errorLog = require("../utils/errorLogger");
+
 const router = express.Router();
 
 router.post("/:document", async (req, res) => {
@@ -108,7 +110,13 @@ router.post("/:document", async (req, res) => {
 
     res.json(data);
   } catch (e) {
+    console.log(req);
     console.error(e);
+    errorLog(
+      req.user.userId,
+      JSON.stringify(e),
+      JSON.stringify(e.error || "Something went wrong")
+    );
     res
       .status(e.status || 500)
       .send({ error: e.error || "Something went wrong", errors: e.errors });

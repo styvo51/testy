@@ -22,7 +22,7 @@ const connect = async () => {
 };
 // Init tables based on db-scripts
 const initTables = async (client) => {
-  await client.query("DROP SCHEMA public CASCADE");
+  await client.query("DROP  SCHEMA IF EXISTS public CASCADE");
   await client.query("CREATE SCHEMA public");
   const tableScripts = fs
     .readFileSync(
@@ -42,6 +42,15 @@ const initTables = async (client) => {
     .split(";");
 
   await Promise.all(logScripts.map(async (sql) => await client.query(sql)));
+  const errorScripts = fs
+    .readFileSync(
+      path.resolve(__dirname, "../db-scripts/04-error-logs.sql"),
+      "utf8"
+    )
+    .toString()
+    .split(";");
+
+  await Promise.all(errorScripts.map(async (sql) => await client.query(sql)));
 };
 
 const seedPeople = async (client) =>
