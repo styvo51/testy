@@ -17,6 +17,7 @@ const {
   reformatDriversLicenseInput,
   reformatDriversLicenseOutput,
   reformatMedicareOutput,
+  reformatPassportOutput,
 } = require("../apis/datazooHelpers");
 const errorLog = require("../utils/errorLogger");
 
@@ -30,25 +31,30 @@ router.post("/:document", async (req, res) => {
     const hashedRequest = hash(req.body);
     let schema;
     let inputMunger;
+    let outputMunger;
     switch (true) {
       case req.params.document === "driverslicence" &&
         req.body.countryCode === "AU":
         schema = AUDriversLicenceVerificationSchema;
         inputMunger = reformatDriversLicenseInput;
+        outputMunger = reformatDriversLicenseOutput;
         break;
       case req.params.document === "driverslicence" &&
         req.body.countryCode === "NZ":
         schema = NZDriversLicenceVerificationSchema;
         inputMunger = reformatDriversLicenseInput;
+        outputMunger = reformatDriversLicenseOutput;
         break;
       case req.params.document === "passport" && req.body.countryCode === "AU":
         schema = PassportVerificationSchema;
         inputMunger = reformatPassportInput;
+        outputMunger = reformatPassportOutput;
         break;
       case req.params.document === "medicarecard" &&
         req.body.countryCode === "AU":
         schema = MedicareCardVerificationSchema;
         inputMunger = reformatMedicareInput;
+        outputMunger = reformatMedicareOutput;
         break;
       default:
         // Throw if a schema isn't found.
@@ -115,7 +121,7 @@ router.post("/:document", async (req, res) => {
       [hashedRequest, req.body, data]
     );
 
-    res.json(data);
+    res.json(outputMunger(data));
   } catch (e) {
     console.log(req);
     console.error(e);

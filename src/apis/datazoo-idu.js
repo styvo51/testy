@@ -26,7 +26,6 @@ datazoo.interceptors.request.use(
     if (config.url !== "/auth/sign_in")
       config.headers.authorization =
         cache.get("ACCESS_TOKEN") || (await getNewAccessToken());
-    config.headers.username = process.env.DATA_ZOO_USERNAME;
     return config;
   },
   (e) => Promise.reject(e)

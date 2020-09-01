@@ -28,7 +28,7 @@ const reformatDriversLicenseInput = (data) => {
   switch (data.countryCode) {
     case "AU": {
       const base = {
-        countryCode,
+        countryCode: "AU",
         service: ["Australia Driver Licence"],
         firstName: data.firstName,
         lastName: data.lastName,
@@ -195,7 +195,7 @@ const reformatDriversLicenseOutput = (req, res) => {
 };
 const reformatPassportOutput = (req, res) => {
   return {
-    countryCode: "NZ",
+    countryCode: "AU",
     reportingReference: res.reportingReference,
     safeHarbour: res.safeHarbour,
     thirdPartyDatasets: {
