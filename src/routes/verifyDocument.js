@@ -1,7 +1,7 @@
 const express = require("express");
 const moment = require("moment");
 const hash = require("object-hash");
-const dz = require("../apis/datazoo");
+const dz = require("../apis/datazoo-idu");
 const pool = require("../database/connection");
 const validateSchema = require("../utils/validateSchema");
 const { getVerifyDatasource } = require("../apis/datazooHelpers");
@@ -29,22 +29,26 @@ router.post("/:document", async (req, res) => {
 
     const hashedRequest = hash(req.body);
     let schema;
-
+    let inputMunger;
     switch (true) {
       case req.params.document === "driverslicence" &&
         req.body.countryCode === "AU":
         schema = AUDriversLicenceVerificationSchema;
+        inputMunger = reformatDriversLicenseInput;
         break;
       case req.params.document === "driverslicence" &&
         req.body.countryCode === "NZ":
         schema = NZDriversLicenceVerificationSchema;
+        inputMunger = reformatDriversLicenseInput;
         break;
       case req.params.document === "passport" && req.body.countryCode === "AU":
         schema = PassportVerificationSchema;
+        inputMunger = reformatPassportInput;
         break;
       case req.params.document === "medicarecard" &&
         req.body.countryCode === "AU":
         schema = MedicareCardVerificationSchema;
+        inputMunger = reformatMedicareInput;
         break;
       default:
         // Throw if a schema isn't found.
@@ -97,12 +101,8 @@ router.post("/:document", async (req, res) => {
     const config = getVerifyDatasource(value.countryCode);
 
     // Request verification from dz
-    const searchValues = { ...value };
-    delete searchValues.countryCode;
-    const { data } = await dz.post(`/${config.country}/Verify.json`, {
-      ...searchValues,
-      dataSources: config.datasources,
-    });
+    const searchValues = inputMunger(value);
+    const { data } = await dz.post(`/verify`, searchValues);
     if (data.messages) {
       throw { status: 500, error: "Dataset unavailable", errors };
     }

@@ -22,10 +22,10 @@ const reformatAMLInput = (data) => {
     ...data,
   };
 };
-const reformatDriversLicenseInput = (countryCode, data) => {
+const reformatDriversLicenseInput = (data) => {
   // Reformat for AU, NZ
 
-  switch (countryCode) {
+  switch (data.countryCode) {
     case "AU": {
       const base = {
         countryCode,
