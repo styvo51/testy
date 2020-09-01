@@ -35,10 +35,6 @@ const AUDriversLicenceVerificationSchema = common.concat(
 const PassportVerificationSchema = common.concat(
   joi.object({
     thirdPartyDatasetsConsentObtained: joi.boolean().required().valid(true),
-    passportExpiry: joi
-      .string()
-      .pattern(/^\d{4}-[01]\d-[0123]\d$/, "YYYY-MM-DD")
-      .required(),
     passportNo: joi.string().min(8).max(9).required(),
     gender: joi
       .string()

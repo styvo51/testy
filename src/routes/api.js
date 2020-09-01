@@ -2,9 +2,9 @@ const router = require("express").Router();
 const confirmRouter = require("./confirm");
 const oracleRouter = require("./oracle");
 const verifyDocumentRouter = require("./verifyDocument");
-const verifyRouter = require("../v2_routes/verify");
 const pepsRouter = require("./politicallyExposedPersons");
 const contactsRouter = require("./contacts");
+const amlRouter = require("./watchlist");
 
 const whitelistByUsers = require("../middleware/whitelistByUsers");
 const auth = require("../middleware/auth");
@@ -18,8 +18,8 @@ router.use(
   oracleRouter
 );
 router.use("/verify-document", auth, verifyDocumentRouter);
-router.use("/verify", auth, verifyRouter);
 router.use("/politically-exposed-persons", auth, pepsRouter);
+router.use("/aml", auth, amlRouter);
 router.use("/contacts", auth, contactsRouter);
 
 router.get("/", (req, res) => res.send("4MDB Api"));

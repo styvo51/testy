@@ -1,17 +1,16 @@
 const express = require("express");
 const moment = require("moment");
 const hash = require("object-hash");
-const dz = require("../apis/datazoo");
-
+const dz = require("../apis/datazoo-idu");
 const pool = require("../database/connection");
 const validateSchema = require("../utils/validateSchema");
 const { PepsSchema } = require("../schema/politicallyExposedPersons");
+const { reformatAMLInput } = require("../apis/datazooHelpers");
 const router = express.Router();
 const errorLog = require("../utils/errorLogger");
-router.post("/", async (req, res) => {
-  try {
-    const hashedRequest = hash(req.body);
 
+router.post("/watchlist", async (req, res) => {
+  try {
     // Validate request body against schema
     const { value, errors } = validateSchema(req.body, PepsSchema, {
       allowUnknown: false,
@@ -21,7 +20,7 @@ router.post("/", async (req, res) => {
     // Handle any errors
     if (errors)
       throw { status: 400, error: "Unable to validate request", errors };
-
+    const hashedRequest = hash(req.body);
     // Check cache for previous request
     const {
       rows: [cachedResponse],
@@ -50,12 +49,11 @@ router.post("/", async (req, res) => {
       return res.send(cachedResponse.response);
 
     // Request verification from dz
-    const { data } = await dz.post("/Australia/Verify.json", {
-      ...value,
-      dataSources: ["Watchlist AML"],
-      reportingReference: "",
-    });
+    const newReqData = reformatAMLInput(value);
+    const { data } = await dz.post("/verify", newReqData);
+
     // Store response for reuse
+
     await pool.query(
       `
         insert into datazoo_searches (hash, body, response)

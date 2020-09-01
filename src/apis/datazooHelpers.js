@@ -98,59 +98,27 @@ const reformatMedicareInput = (data) => {
   }
   return base;
 };
-const reformatPassportInput = (countryCode, data) => {
-  // Reformat for AU, NZ
-  switch (countryCode) {
-    case "AU": {
-      const base = {
-        countryCode: "AU",
-        service: ["Australia Passport"],
-        firstName: data.firstName,
-        lastName: data.lastName,
-        dateOfBirth: data.dateOfBirth,
-        gender: data.gender,
-        identityVariables: {
-          passportNo: data.passportNo,
-          passportExpiry: data.passportExpiry,
-        },
+const reformatPassportInput = (data) => {
+  const base = {
+    countryCode: "AU",
+    service: ["Australia Passport"],
+    firstName: data.firstName,
+    lastName: data.lastName,
+    dateOfBirth: data.dateOfBirth,
+    gender: data.gender,
+    identityVariables: {
+      passportNo: data.passportNo,
+      passportExpiry: data.passportExpiry,
+    },
 
-        consentObtained: {
-          "Australia Passport": data.thirdPartyDatasetsConsentObtained,
-        },
-      };
-      if (data.middleName) {
-        base.middleName = data.middleName;
-      }
-      return base;
-    }
-    case "NZ": {
-      const base = {
-        countryCode: "NZ",
-        service: ["New Zealand DIA Passport"],
-        firstName: data.firstName,
-        lastName: data.lastName,
-        dateOfBirth: data.dateOfBirth,
-        identityVariables: {
-          passportNo: data.passportNo,
-          passportExpiry: data.passportExpiry,
-        },
-        consentObtained: {
-          "New Zealand DIA Passport": data.thirdPartyDatasetsConsentObtained,
-        },
-      };
-      if (data.middleName) {
-        base.middleName = data.middleName;
-      }
-      return base;
-    }
-    default: {
-      throw {
-        status: 400,
-        error:
-          "Currently 4MDB only supports Australia and New Zealand passport verification",
-      };
-    }
+    consentObtained: {
+      "Australia Passport": data.thirdPartyDatasetsConsentObtained,
+    },
+  };
+  if (data.middleName) {
+    base.middleName = data.middleName;
   }
+  return base;
 };
 
 // Output reformatters

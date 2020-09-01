@@ -51,3 +51,5 @@ datazoo.interceptors.response.use(
     return axios(original);
   }
 );
+
+module.exports = datazoo;
