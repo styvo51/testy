@@ -11,6 +11,13 @@ const {
   PassportVerificationSchema,
   MedicareCardVerificationSchema,
 } = require("../schema/verifyDocument");
+const {
+  reformatPassportInput,
+  reformatMedicareInput,
+  reformatDriversLicenseInput,
+  reformatDriversLicenseOutput,
+  reformatMedicareOutput,
+} = require("../apis/datazooHelpers");
 const errorLog = require("../utils/errorLogger");
 
 const router = express.Router();

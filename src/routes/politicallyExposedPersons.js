@@ -2,6 +2,7 @@ const express = require("express");
 const moment = require("moment");
 const hash = require("object-hash");
 const dz = require("../apis/datazoo");
+const dzIdu = require("../apis/datazoo-idu");
 const pool = require("../database/connection");
 const validateSchema = require("../utils/validateSchema");
 const { PepsSchema } = require("../schema/politicallyExposedPersons");

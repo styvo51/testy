@@ -14,6 +14,7 @@ const getVerifyDatasource = (countryCode) => {
     }
   }
 };
+// Input reformatters
 const reformatAMLInput = (data) => {
   return {
     countryCode: "All",
@@ -151,10 +152,108 @@ const reformatPassportInput = (countryCode, data) => {
     }
   }
 };
+
+// Output reformatters
+const reformatMedicareOutput = (req, res) => {
+  return {
+    reportingReference: res.reportingReference,
+    safeHarbour: res.safeHarbour,
+    thirdPartyDatasets: {
+      status:
+        res.serviceResponses["Australia Government Identity Documents 3"]
+          .status,
+      verified:
+        res.serviceResponses["Australia Government Identity Documents 3"]
+          .identityVerified,
+      safeHarbourScore:
+        res.res.serviceResponses["Australia Government Identity Documents 3"],
+      firstName: req.firstName,
+      middleName: req.middleName ? req.middleName : null,
+      lastName: req.lastName,
+      dateOfBirth: req.dateOfBirth,
+      medicareCardNo: req.medicareCardNo,
+      medicareCardType: req.medicareCardType,
+      medicareIndividualRefNo: req.medicareIndividualRefNo,
+      medicareExpiryDate: req.medicareExpiryDate,
+    },
+  };
+};
+const reformatDriversLicenseOutput = (req, res) => {
+  switch (req.countryCode) {
+    case "AU": {
+      return {
+        countryCode: "AU",
+        reportingReference: res.reportingReference,
+        safeHarbour: res.safeHarbour,
+        thirdPartyDatasets: {
+          status:
+            res.serviceResponses["Australia Government Identity Documents 1"]
+              .status,
+          verified:
+            res.serviceResponses["Australia Government Identity Documents 1"]
+              .identityVerified,
+          safeHarbourScore:
+            res.res.serviceResponses[
+              "Australia Government Identity Documents 1"
+            ],
+          firstName: req.firstName,
+          middleName: req.middleName ? req.middleName : null,
+          lastName: req.lastName,
+          dateOfBirth: req.dateOfBirth,
+          driversLicenceNo: req.driversLicenceNo,
+          driversLicenceState: req.driversLicenceState,
+        },
+      };
+    }
+    case "NZ": {
+      return {
+        countryCode: "NZ",
+        reportingReference: res.reportingReference,
+        safeHarbour: res.safeHarbour,
+        driversLicense: {
+          status: res.serviceResponses["New Zealand Driver Licence"].status,
+          verified:
+            res.serviceResponses["New Zealand Driver Licence"].identityVerified,
+          safeHarbourScore:
+            res.res.serviceResponses["New Zealand Driver Licence"],
+          firstName: req.firstName,
+          middleName: req.middleName ? req.middleName : null,
+          lastName: req.lastName,
+          dateOfBirth: req.dateOfBirth,
+        },
+      };
+    }
+  }
+};
+const reformatPassportOutput = (req, res) => {
+  return {
+    countryCode: "NZ",
+    reportingReference: res.reportingReference,
+    safeHarbour: res.safeHarbour,
+    thirdPartyDatasets: {
+      status:
+        res.serviceResponses["Australia Government Identity Documents 2"]
+          .status,
+      verified:
+        res.serviceResponses["Australia Government Identity Documents 2"]
+          .identityVerified,
+      safeHarbourScore:
+        res.res.serviceResponses["Australia Government Identity Documents 2"],
+      firstName: req.firstName,
+      lastName: req.lastName,
+      dateOfBirth: req.dateOfBirth,
+      passportNo: req.passportNo,
+    },
+  };
+};
+
 module.exports = {
   getVerifyDatasource,
   reformatAMLInput,
   reformatDriversLicenseInput,
   reformatMedicareInput,
   reformatPassportInput,
+  reformatMedicareOutput,
+  reformatDriversLicenseOutput,
+  reformatPassportOutput,
 };
