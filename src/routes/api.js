@@ -4,6 +4,7 @@ const oracleRouter = require("./oracle");
 const verifyDocumentRouter = require("./verifyDocument");
 const pepsRouter = require("./politicallyExposedPersons");
 const contactsRouter = require("./contacts");
+const portalRouter = require("./portal");
 
 const whitelistByUsers = require("../middleware/whitelistByUsers");
 const auth = require("../middleware/auth");

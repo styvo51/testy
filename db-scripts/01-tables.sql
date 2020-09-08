@@ -13,7 +13,12 @@ CREATE TABLE person (
 
 CREATE TABLE users (
   "id" serial PRIMARY KEY,
-  "name" text NOT NULL
+  "name" varchar NOT NULL,
+  "email" varchar not null,
+  "company_name" varchar null,
+  "abn_acn" varchar null,
+  "address_string" text null,
+  "contact_name" text null
 );
 
 CREATE TABLE api_keys (

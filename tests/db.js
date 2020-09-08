@@ -72,8 +72,11 @@ const seedPeople = async (client) =>
 const seedUsers = async (client) =>
   await Promise.all(
     Object.values(users).map(
-      async ({ name }) =>
-        await client.query("INSERT INTO users (name) VALUES ($1)", [name])
+      async ({ name, email }) =>
+        await client.query("INSERT INTO users (name, email) VALUES ($1, $2)", [
+          name,
+          email,
+        ])
     )
   );
 
