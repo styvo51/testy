@@ -14,7 +14,7 @@ CREATE TABLE person (
 CREATE TABLE users (
   "id" serial PRIMARY KEY,
   "name" varchar NOT NULL,
-  "email" varchar not null,
+  "email" varchar unique not null,
   "company_name" varchar null,
   "abn_acn" varchar null,
   "address_string" text null,
