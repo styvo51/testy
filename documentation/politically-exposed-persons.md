@@ -37,7 +37,6 @@ Request:
 
 ```json
 {
-  "reportingReference": "",
   "firstName": "Nur",
   "lastName": "Misuari",
   "gender": "Male",
