@@ -1,0 +1,100 @@
+{
+  "info": {
+    "_postman_id": "f8ddf5e9-13d5-445e-b68c-8d3152d6fea0",
+    "name": "IMX",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST /portal/users",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\":\"bob.belcher@test.com\",\n    \"company_name\": \"Bob's Badass Burgers\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{dev}}/portal/users?key=apikey",
+          "host": ["{{dev}}"],
+          "path": ["portal", "users"],
+          "query": [
+            {
+              "key": "key",
+              "value": "apikey"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /portal/users",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{imx}}/portal/users?key=apikey",
+          "host": ["{{imx}}"],
+          "path": ["portal", "users"],
+          "query": [
+            {
+              "key": "key",
+              "value": "apikey"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /portal/users/queries",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\":\"oracle@test.com\",\n    \"startDate\":\"2020-08-26 11:10:54\",\n    \"endDate\":\"2020-08-31 11:23:54\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{imxLocal}}/portal/users/queries?key=apikey",
+          "host": ["{{imxLocal}}"],
+          "path": ["portal", "users", "queries"],
+          "query": [
+            {
+              "key": "key",
+              "value": "apikey"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "protocolProfileBehavior": {}
+}

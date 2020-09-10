@@ -20,6 +20,7 @@ router.use(
 router.use("/verify-document", auth, verifyDocumentRouter);
 router.use("/politically-exposed-persons", auth, pepsRouter);
 router.use("/contacts", auth, contactsRouter);
+router.use("/portal", auth, portalRouter);
 
 router.get("/", (req, res) => res.send("4MDB Api"));
 
