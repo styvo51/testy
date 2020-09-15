@@ -124,7 +124,7 @@ Response:
   "safeHarbour": {
     "type": "boolean"
   },
-  "driversLicense": {
+  "driversLicence": {
     "type": "object",
     "properties": {
       "status": {
@@ -160,7 +160,7 @@ Response:
 {
   "reportingReference": "DZ-KWL-000000001038588",
   "safeHarbour": false,
-  "driversLicense": {
+  "driversLicence": {
     "status": 0,
     "verified": true,
     "safeHarbourScore": "M2",
