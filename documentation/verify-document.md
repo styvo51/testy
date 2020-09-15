@@ -71,6 +71,7 @@ Request:
   },
   "middleName": {
     "type": "string"
+    "description":"Required if present on the licence"
   },
   "lastName": {
     "type": "string"
@@ -99,14 +100,12 @@ Request:
 
 ```json
 {
-  "countryCode": "NZ", // mandatory
-  "firstName": "John", // mandatory input
-  "middleName": null, // required if present on Licence
-  "lastName": "Smith", // mandatory input
-  "dateOfBirth": "1965-01-01", // mandatory input
-  "driversLicenceNo": "94977000", // mandatory input
-  "driversLicenceVersion": "001", // mandatory input
-  "driversLicenceConsentObtained": true // must be true, or the request fails
+    "firstName": "Dana",
+    "lastName": "Mitchell",
+    "dateOfBirth": "1965-09-13",
+    "driversLicenceNo": "DB512036",
+    "driversLicenceVersion": "001",
+    "driversLicenceConsentObtained": true
 }
 ```
 
