@@ -7,6 +7,8 @@ const validateSchema = require("../utils/validateSchema");
 const { PepsSchema } = require("../schema/politicallyExposedPersons");
 const router = express.Router();
 const errorLog = require("../utils/errorLogger");
+const searchLog = require("../utils/searchLogger");
+
 router.post("/", async (req, res) => {
   try {
     const hashedRequest = hash(req.body);
@@ -62,10 +64,23 @@ router.post("/", async (req, res) => {
       `,
       [hashedRequest, req.body, data]
     );
-
+    await searchLog(
+      req.user.userId,
+      "AML",
+      new Date().toISOString(),
+      req.body,
+      data
+    );
     res.json(data);
   } catch (e) {
     console.error(e);
+    await searchLog(
+      req.user.userId,
+      "AML",
+      new Date().toISOString(),
+      req.body,
+      e
+    );
     errorLog(
       req.user.userId,
       JSON.stringify(e),

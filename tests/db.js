@@ -51,6 +51,26 @@ const initTables = async (client) => {
     .split(";");
 
   await Promise.all(errorScripts.map(async (sql) => await client.query(sql)));
+  const searchScripts = fs
+    .readFileSync(
+      path.resolve(__dirname, "../db-scripts/05-search-logs.sql"),
+      "utf8"
+    )
+    .toString()
+    .split(";");
+
+  await Promise.all(searchScripts.map(async (sql) => await client.query(sql)));
+  const usersUpdateScripts = fs
+    .readFileSync(
+      path.resolve(__dirname, "../db-scripts/07-users-update.sql"),
+      "utf8"
+    )
+    .toString()
+    .split(";");
+
+  await Promise.all(
+    usersUpdateScripts.map(async (sql) => await client.query(sql))
+  );
 };
 
 const seedPeople = async (client) =>

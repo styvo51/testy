@@ -45,26 +45,7 @@ const auth = async (req, res, next) => {
         status: 403,
       };
     req.user = { userId: data.userId, name: data.name };
-    // Save the request record in the request_logs table
-    await pool.query(
-      `
-        insert into request_logs (user_id, raw_request)
-        values($1,$2)
-      `,
-      [
-        data.userId,
-        {
-          body: req.body,
-          params: req.params,
-          query: req.query,
-          baseUrl: req.baseUrl,
-          url: req.url,
-          method: req.method,
-          headers: req.headers,
-          apikey: req.query.key,
-        },
-      ]
-    );
+
     next();
   } catch (e) {
     console.log(e);

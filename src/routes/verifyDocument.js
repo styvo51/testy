@@ -12,6 +12,7 @@ const {
   MedicareCardVerificationSchema,
 } = require("../schema/verifyDocument");
 const errorLog = require("../utils/errorLogger");
+const searchLog = require("../utils/searchLogger");
 
 const router = express.Router();
 
@@ -107,12 +108,24 @@ router.post("/:document", async (req, res) => {
       `,
       [hashedRequest, req.body, data]
     );
-
+    await searchLog(
+      req.user.userId,
+      "KYC",
+      new Date().toISOString(),
+      req.body,
+      data
+    );
     res.json(data);
   } catch (e) {
-    console.log(req);
     console.error(e);
-    errorLog(
+    await searchLog(
+      req.user.userId,
+      "KYC",
+      new Date().toISOString(),
+      req.body,
+      e
+    );
+    await errorLog(
       req.user.userId,
       JSON.stringify(e),
       JSON.stringify(e.error || "Something went wrong")
