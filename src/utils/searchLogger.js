@@ -30,7 +30,7 @@ const searchLog = async (
     };
     if (response.thirdPartyDatasets) {
       sanitizedResponse.thirdPartyDatasets.verified =
-        response.thirdPartyDatasets.verified;
+        response.thirdPartyDatasets.verified || false;
       sanitizedResponse.thirdPartyDatasets.status =
         response.thirdPartyDatasets.status;
       if (response.thirdPartyDatasets.errorMessage) {
