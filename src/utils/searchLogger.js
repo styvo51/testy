@@ -26,9 +26,9 @@ const searchLog = async (
       body.medicareExpiryDate = "****-**";
     }
     const sanitizedResponse = {
-      reportingReference: response.reportingReference,
+      // reportingReference: response.reportingReference,
     };
-    if (response.thirdPartyDatasets) {
+    if ("thirdPartyDatasets" in response) {
       sanitizedResponse.thirdPartyDatasets.verified =
         response.thirdPartyDatasets.verified || false;
       sanitizedResponse.thirdPartyDatasets.status =
@@ -38,7 +38,7 @@ const searchLog = async (
           response.thirdPartyDatasets.errorMessage;
       }
     }
-    if (response.driversLicence) {
+    if ("driversLicence" in response) {
       sanitizedResponse.driversLicence.verified =
         response.driversLicence.verified;
       sanitizedResponse.driversLicence.status = response.driversLicence.status;
@@ -46,6 +46,13 @@ const searchLog = async (
         sanitizedResponse.driversLicence.errorMessage =
           response.driversLicence.errorMessage;
       }
+    }
+    if ("watchlistAML" in response) {
+      sanitizedResponse.verified = response.watchlistAML[0].verified;
+      sanitizedResponse.urlMore =
+        response.watchlistAML[0].watchlistAMLAdditionalInfo.urlMore;
+      sanitizedResponse.category =
+        response.watchlistAML[0].watchlistAMLAdditionalInfo.category;
     }
 
     await pool.query(
