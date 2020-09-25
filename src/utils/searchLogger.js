@@ -27,7 +27,6 @@ const searchLog = async (
     }
     // const sanitizedResponse = {
     //   reportingReference: response.reportingReference,
-
     // };
     // if ("thirdPartyDatasets" in response) {
     //   sanitizedResponse.thirdPartyDatasets.verified =
@@ -55,7 +54,7 @@ const searchLog = async (
     //   sanitizedResponse.category =
     //     response.watchlistAML[0].watchlistAMLAdditionalInfo.category;
     // }
-
+    console.log(body, response);
     await pool.query(
       `
         insert into searches (user_id, search_type, created, body, response)
